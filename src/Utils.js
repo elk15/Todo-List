@@ -1,17 +1,20 @@
 const Utilities = (() => {
-    const toggleElement = (element) => {
-        element.classList.toggle('hide');
+    const getElement = (query) => document.querySelector(query);
+
+    const toggleElement = (query) => {
+        getElement(query).classList.toggle('hide');
     };
 
-    const hideElement = (element) => {
-        element.classList.add('hide');
+    const hideElement = (query) => {
+        getElement(query).classList.add('hide');
     };
 
-    const showElement = (element) => {
-        element.classList.remove('hide');
+    const showElement = (query) => {
+        getElement(query).classList.remove('hide');
     };
 
     return {
+        getElement,
         toggleElement,
         hideElement,
         showElement,
