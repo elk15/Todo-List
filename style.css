@@ -15,6 +15,10 @@
     --padding-left: 5px;
 }
 
+.hide {
+    display: none;
+}
+
 .container-grid {
     min-height: 100vh;
     display: grid;
