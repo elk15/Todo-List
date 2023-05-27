@@ -19,6 +19,10 @@ export default class Project {
         this.tasks.push(new Task(title, description, parsedDate, priority));
     }
 
+    findTask(index) {
+        return this.tasks[index];
+    }
+
     changeTaskTitle(index, newTitle) {
         this.tasks[index].changeTitle(newTitle);
     }
