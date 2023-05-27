@@ -6,7 +6,7 @@ const TodoList = (() => {
     const userProjects = [];
 
     inbox.addTask('Read', 'More books', '2023-5-26', 3);
-    inbox.addTask('Program', 'Fun', '2023-5-27', 1);
+    inbox.addTask('Program', '', '2023-5-27', 1);
     inbox.addTask('Clean', 'Misery', '2023-5-27', 1);
     inbox.addTask('Study', 'Yay', '2023-5-26', 2);
     inbox.addTask('Go to amusement park', 'Yay', '2023-6-29', 3);

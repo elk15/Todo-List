@@ -3,6 +3,7 @@ import TodoList from './TodoList';
 
 const projectPage = (project) => {
     const page = document.createElement('div');
+    page.classList.add('project');
 
     const createListItemIcon = (task) => {
         const priorityColors = ['', '#d1453b', '#eb8909', '#246fe0', '#f3f3f3'];
@@ -14,9 +15,8 @@ const projectPage = (project) => {
 
     const createListItem = (task) => {
         const li = document.createElement('li');
-        li.innerHTML = `<div>${createListItemIcon(task)} <h3>${task.title}</h3></div>
-                        <div>${task.description}</div>
-                        <div>${task.dueDate}</div>`;
+        li.innerHTML = `<div>${createListItemIcon(task)}</div> <div class="task-main"><div class="task-title"><h3>${task.title}</h3> ${task.getDueDate()}</div>
+        <div>${task.description}</div> </div>`;
         return li;
     };
 
@@ -38,6 +38,7 @@ const projectPage = (project) => {
 
     const groupBtns = () => {
         const div = document.createElement('div');
+        div.classList.add('btns');
         const sortByBtn = createBtn('Sort By', 'sort');
         div.appendChild(sortByBtn);
         const deleteBtn = createBtn('Delete', 'delete');
@@ -55,6 +56,7 @@ const projectPage = (project) => {
 
     const createAddTaskBtn = () => {
         const btn = document.createElement('button');
+        btn.classList.add('add-task');
         btn.innerHTML += '<span>+</span> Add task';
         page.appendChild(btn);
     };
