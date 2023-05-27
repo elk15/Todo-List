@@ -1,11 +1,15 @@
-import Project from './Project';
+import TodoList from './TodoList';
 
-const inbox = new Project('Inbox');
+TodoList.inbox.addTask('Read', 'More books', '2023-5-26', 3);
+TodoList.inbox.addTask('Program', 'Fun', '2023-5-27', 1);
+TodoList.inbox.addTask('Clean', 'Misery', '2023-5-27', 1);
+TodoList.inbox.addTask('Study', 'Yay', '2023-5-26', 2);
+TodoList.inbox.addTask('Go to amusement park', 'Yay', '2023-6-29', 3);
 
-inbox.addTask('clean', 'all the house', '2023-10-11', 1);
-inbox.addTask('program', 'fun', '2023-10-12', 3);
-inbox.addTask('read', 'yay', '2023-12-23', 2);
-inbox.addTask('watch tv', 'yay', '2023-9-11', 2);
+TodoList.addProject('Make website');
+TodoList.addProject('Bake a cake');
+TodoList.renameProject(0, 'Build Application');
+console.log(TodoList.getProjects());
 
-console.log(inbox.getTasks());
-console.log(inbox.getTasksAmount());
+const project1 = TodoList.findProject(0);
+project1.addTask('Program', 'Fun', '2023-5-27', 1);

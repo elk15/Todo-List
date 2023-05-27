@@ -7,8 +7,15 @@ export default class Project {
         this.tasks = [];
     }
 
+    changeProjectTitle(newTitle) {
+        this.title = newTitle;
+    }
+
     addTask(title, description, dueDate, priority) {
-        const parsedDate = parse(dueDate, 'yyyy-MM-dd', new Date());
+        let parsedDate = dueDate;
+        if (typeof dueDate === 'string') {
+            parsedDate = parse(dueDate, 'yyyy-MM-dd', new Date());
+        }
         this.tasks.push(new Task(title, description, parsedDate, priority));
     }
 
@@ -36,7 +43,7 @@ export default class Project {
     }
 
     deleteTask(index) {
-        this.tasks.splice(index);
+        this.tasks.splice(index, 1);
     }
 
     deleteCompleted() {
