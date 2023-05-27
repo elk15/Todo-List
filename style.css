@@ -13,6 +13,7 @@
     --sidebar-color: #fafafa;
     --default-padding: 10px;
     --padding-left: 5px;
+    --hover-color: #eeeeee;
 }
 
 .hide {
@@ -100,7 +101,7 @@ nav ul li {
 }
 
 nav ul li:hover {
-    background-color: #eeeeee;
+    background-color: var(--hover-color);
     border-radius: 5px;
 }
 
@@ -135,4 +136,91 @@ nav > div button:hover{
 .projects {
     flex:1 1 400px;
     overflow-y: scroll;
+}
+
+/* Project Page */
+
+.main-content {
+    display: flex;
+    justify-content: center;
+}
+
+.project {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+    gap: 20px;
+}
+
+.project .project-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project button {
+    font-size: 18px;
+
+}
+
+.project .btns button {
+    padding: 5px 10px;
+}
+
+.project .btns button:hover {
+    background-color: var(--hover-color);
+}
+
+.project .tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.project .tasks h3 {
+    font-weight: 400;
+}
+
+.project .tasks li{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border-bottom: 1px solid var(--hover-color);
+    padding: var(--default-padding);
+    
+}
+
+.completed {
+    text-decoration: line-through;
+}
+
+.project .tasks li:hover {
+    cursor: pointer;
+}
+
+.project .tasks .task-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.project .tasks .task-main {
+    width: 100%;
+}
+
+.project .add-task {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.project .add-task:hover {
+    color: var(--primary-color);
+}
+
+.project .add-task span {
+    color: var(--primary-color);
+    font-weight: 400;
+    font-size: 25px;
 }
