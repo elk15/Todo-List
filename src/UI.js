@@ -80,7 +80,29 @@ const projectPage = (project) => {
         });
     };
 
-    const handleSortmenu = () => {
+    const handleSortMenu = () => {
+        const dueDateBtn = Utilities.getElement('.sort-dueDate');
+
+        dueDateBtn.addEventListener('click', () => {
+            project.sortByDueDate();
+            createTasksList();
+        });
+    };
+
+    const toggleDeleteMenu = () => {
+        const deleteBtn = Utilities.getElement('.delete');
+        deleteBtn.addEventListener('click', () => {
+            Utilities.showElement('.delete-modal');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (e.target !== Utilities.getElement('.delete')) {
+                Utilities.hideElement('.delete-modal');
+            }
+        });
+    };
+
+    const handleDeleteMenu = () => {
         const dueDateBtn = Utilities.getElement('.sort-dueDate');
 
         dueDateBtn.addEventListener('click', () => {
@@ -92,7 +114,9 @@ const projectPage = (project) => {
     const attachEventListeners = () => {
         handleChecks();
         toggleSortMenu();
-        handleSortmenu();
+        handleSortMenu();
+        toggleDeleteMenu();
+        handleDeleteMenu();
     };
 
     return {
