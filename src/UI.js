@@ -1,9 +1,16 @@
 import Utilities from './Utils';
 import TodoList from './TodoList';
 
-const projectPage = (project) => {
+const projectPage = (project, projectIndex) => {
     const projectTitle = Utilities.getElement('.project-title');
     const taskList = Utilities.getElement('.tasks');
+
+    const taskAmount = Utilities.getElement(`#amount-${projectIndex}`);
+    taskAmount.innerHTML = project.getTasksAmount();
+
+    const updateAmount = () => {
+        taskAmount.innerHTML = project.getTasksAmount();
+    };
 
     projectTitle.firstChild.innerHTML = project.title;
 
@@ -32,10 +39,6 @@ const projectPage = (project) => {
             taskList.appendChild(createListItem(task, i));
             i += 1;
         });
-    };
-
-    const initializePage = () => {
-        createTasksList();
     };
 
     const handleChecks = () => {
@@ -77,19 +80,6 @@ const projectPage = (project) => {
         });
     };
 
-    // const toggleSortMenu = () => {
-    //     const sortBtn = Utilities.getElement('.sort');
-    //     sortBtn.addEventListener('click', () => {
-    //         Utilities.showElement('.sort-modal');
-    //     });
-
-    //     document.addEventListener('click', (e) => {
-    //         if (e.target !== Utilities.getElement('.sort')) {
-    //             Utilities.hideElement('.sort-modal');
-    //         }
-    //     });
-    // };
-
     const handleSortMenu = () => {
         const dueDateBtn = Utilities.getElement('.sort-dueDate');
         const priorityBtn = Utilities.getElement('.sort-priority');
@@ -107,19 +97,6 @@ const projectPage = (project) => {
         });
     };
 
-    // const toggleDeleteMenu = () => {
-    //     const deleteBtn = Utilities.getElement('.delete');
-    //     deleteBtn.addEventListener('click', () => {
-    //         Utilities.showElement('.delete-modal');
-    //     });
-
-    //     document.addEventListener('click', (e) => {
-    //         if (e.target !== Utilities.getElement('.delete')) {
-    //             Utilities.hideElement('.delete-modal');
-    //         }
-    //     });
-    // };
-
     const handleDeleteMenu = () => {
         const deleteCompletedBtn = Utilities.getElement('.delete-completed');
         const deleteAllBtn = Utilities.getElement('.delete-all');
@@ -128,16 +105,19 @@ const projectPage = (project) => {
             project.deleteCompleted();
             createTasksList();
             handleChecks();
+            updateAmount();
         });
 
         deleteAllBtn.addEventListener('click', () => {
             project.deleteAll();
             createTasksList();
             handleChecks();
+            updateAmount();
         });
     };
 
-    const attachEventListeners = () => {
+    const initializePage = () => {
+        createTasksList();
         handleChecks();
         toggleMiniMenu('sort');
         toggleMiniMenu('delete');
@@ -147,19 +127,12 @@ const projectPage = (project) => {
 
     return {
         initializePage,
-        attachEventListeners,
     };
 };
 
 const UI = (() => {
-    const todayAmount = Utilities.getElement('.amount-today');
-    const inboxAmount = Utilities.getElement('.amount-inbox');
-    inboxAmount.innerHTML = TodoList.inbox.getTasksAmount();
-    todayAmount.innerHTML = TodoList.getTodaysTasks().getTasksAmount();
-
     const initializeUI = () => {
-        projectPage(TodoList.inbox).initializePage();
-        projectPage(TodoList.inbox).attachEventListeners();
+        projectPage(TodoList.inbox, 0).initializePage();
     };
 
     return {
