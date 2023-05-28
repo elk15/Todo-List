@@ -82,9 +82,15 @@ const projectPage = (project) => {
 
     const handleSortMenu = () => {
         const dueDateBtn = Utilities.getElement('.sort-dueDate');
+        const priorityBtn = Utilities.getElement('.sort-priority');
 
         dueDateBtn.addEventListener('click', () => {
             project.sortByDueDate();
+            createTasksList();
+        });
+
+        priorityBtn.addEventListener('click', () => {
+            project.sortByPriority();
             createTasksList();
         });
     };
