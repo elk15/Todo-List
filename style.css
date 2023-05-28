@@ -240,6 +240,11 @@ nav > div button:hover{
     left: 410px;
 }
 
+.project .delete-modal{
+    top: 40px;
+    left: 440px;
+}
+
 .project .mini-modal span {
     display: block;
     padding: 5px;
@@ -248,4 +253,5 @@ nav > div button:hover{
 
 .project .mini-modal span:hover {
     background-color: var(--hover-color);
+    cursor: pointer;
 }
