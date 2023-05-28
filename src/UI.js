@@ -64,18 +64,31 @@ const projectPage = (project) => {
         });
     };
 
-    const toggleSortMenu = () => {
-        const sortBtn = Utilities.getElement('.sort');
+    const toggleMiniMenu = (name) => {
+        const sortBtn = Utilities.getElement(`.${name}`);
         sortBtn.addEventListener('click', () => {
-            Utilities.showElement('.sort-modal');
+            Utilities.showElement(`.${name}-modal`);
         });
 
         document.addEventListener('click', (e) => {
-            if (e.target !== Utilities.getElement('.sort')) {
-                Utilities.hideElement('.sort-modal');
+            if (e.target !== Utilities.getElement(`.${name}`)) {
+                Utilities.hideElement(`.${name}-modal`);
             }
         });
     };
+
+    // const toggleSortMenu = () => {
+    //     const sortBtn = Utilities.getElement('.sort');
+    //     sortBtn.addEventListener('click', () => {
+    //         Utilities.showElement('.sort-modal');
+    //     });
+
+    //     document.addEventListener('click', (e) => {
+    //         if (e.target !== Utilities.getElement('.sort')) {
+    //             Utilities.hideElement('.sort-modal');
+    //         }
+    //     });
+    // };
 
     const handleSortMenu = () => {
         const dueDateBtn = Utilities.getElement('.sort-dueDate');
@@ -94,18 +107,18 @@ const projectPage = (project) => {
         });
     };
 
-    const toggleDeleteMenu = () => {
-        const deleteBtn = Utilities.getElement('.delete');
-        deleteBtn.addEventListener('click', () => {
-            Utilities.showElement('.delete-modal');
-        });
+    // const toggleDeleteMenu = () => {
+    //     const deleteBtn = Utilities.getElement('.delete');
+    //     deleteBtn.addEventListener('click', () => {
+    //         Utilities.showElement('.delete-modal');
+    //     });
 
-        document.addEventListener('click', (e) => {
-            if (e.target !== Utilities.getElement('.delete')) {
-                Utilities.hideElement('.delete-modal');
-            }
-        });
-    };
+    //     document.addEventListener('click', (e) => {
+    //         if (e.target !== Utilities.getElement('.delete')) {
+    //             Utilities.hideElement('.delete-modal');
+    //         }
+    //     });
+    // };
 
     const handleDeleteMenu = () => {
         const deleteCompletedBtn = Utilities.getElement('.delete-completed');
@@ -126,9 +139,9 @@ const projectPage = (project) => {
 
     const attachEventListeners = () => {
         handleChecks();
-        toggleSortMenu();
+        toggleMiniMenu('sort');
+        toggleMiniMenu('delete');
         handleSortMenu();
-        toggleDeleteMenu();
         handleDeleteMenu();
     };
 
