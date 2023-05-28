@@ -2,38 +2,10 @@ import Utilities from './Utils';
 import TodoList from './TodoList';
 
 const projectPage = (project) => {
-    const page = document.createElement('div');
-    page.classList.add('project');
+    const projectTitle = Utilities.getElement('.project-title');
+    const taskList = Utilities.getElement('.tasks');
 
-    const projectTitle = document.createElement('div');
-    projectTitle.classList.add('project-title');
-    page.appendChild(projectTitle);
-
-    const taskList = document.createElement('ul');
-    taskList.classList.add('tasks');
-    page.appendChild(taskList);
-
-    const createBtn = (text, c) => {
-        const btn = document.createElement('button');
-        btn.innerHTML = `${text} <i class="fa-solid fa-angle-down" style="color: #2e3436;"></i>`;
-        btn.class = c;
-        return btn;
-    };
-
-    const groupBtns = () => {
-        const div = document.createElement('div');
-        div.classList.add('btns');
-        const sortByBtn = createBtn('Sort By', 'sort');
-        div.appendChild(sortByBtn);
-        const deleteBtn = createBtn('Delete', 'delete');
-        div.appendChild(deleteBtn);
-        return div;
-    };
-
-    const createHeader = () => {
-        projectTitle.innerHTML = `<h2>${project.title}</h2>`;
-        projectTitle.appendChild(groupBtns());
-    };
+    projectTitle.firstChild.innerHTML = project.title;
 
     const createListItemIcon = (task) => {
         const priorityColors = ['', '#d1453b', '#eb8909', '#246fe0', '#474545'];
@@ -55,32 +27,22 @@ const projectPage = (project) => {
 
     const createTasksList = () => {
         let i = 0;
+        taskList.innerHTML = '';
+        console.log(project.getTasks());
         project.getTasks().forEach((task) => {
+            console.log(task);
+            console.log(createListItem(task, i));
             taskList.appendChild(createListItem(task, i));
             i += 1;
         });
-        console.log('Task list created');
-    };
-
-    const createAddTaskBtn = () => {
-        const btn = document.createElement('button');
-        btn.classList.add('add-task');
-        btn.innerHTML += '<span>+</span> Add task';
-        btn.addEventListener('click', () => {
-            console.log('Click');
-        });
-        page.appendChild(btn);
     };
 
     const initializePage = () => {
-        createHeader();
         createTasksList();
-        createAddTaskBtn();
-        return page;
     };
 
     const handleChecks = () => {
-        const checks = document.querySelectorAll('.check');
+        const checks = Utilities.getElements('.check');
 
         checks.forEach((check) => {
             const taskIndex = check.parentElement.dataset.index;
@@ -91,7 +53,6 @@ const projectPage = (project) => {
             });
             check.addEventListener('mouseout', () => {
                 if (!project.findTask(taskIndex).isCompleted) {
-                    console.log(!project.findTask(taskIndex).isCompleted);
                     check.firstChild.classList.remove('fa-circle-check');
                     check.firstChild.classList.add('fa-circle');
                 }
@@ -106,26 +67,52 @@ const projectPage = (project) => {
         });
     };
 
+    const toggleSortMenu = () => {
+        const sortBtn = Utilities.getElement('.sort');
+        sortBtn.addEventListener('click', () => {
+            Utilities.showElement('.sort-modal');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (e.target !== Utilities.getElement('.sort')) {
+                Utilities.hideElement('.sort-modal');
+            }
+        });
+    };
+
+    const handleSortmenu = () => {
+        const dueDateBtn = Utilities.getElement('.sort-dueDate');
+
+        dueDateBtn.addEventListener('click', () => {
+            project.sortByDueDate();
+            createTasksList();
+        });
+    };
+
+    const attachEventListeners = () => {
+        handleChecks();
+        toggleSortMenu();
+        handleSortmenu();
+    };
+
     return {
         initializePage,
-        handleChecks,
+        attachEventListeners,
     };
 };
 
 const UI = (() => {
-    const currentPage = projectPage(TodoList.inbox).initializePage();
-
     const todayAmount = Utilities.getElement('.amount-today');
     const inboxAmount = Utilities.getElement('.amount-inbox');
     inboxAmount.innerHTML = TodoList.inbox.getTasksAmount();
     todayAmount.innerHTML = TodoList.getTodaysTasks().getTasksAmount();
 
     const initializeUI = () => {
-        projectPage(TodoList.inbox).handleChecks();
+        projectPage(TodoList.inbox).initializePage();
+        projectPage(TodoList.inbox).attachEventListeners();
     };
 
     return {
-        currentPage,
         initializeUI,
     };
 })();

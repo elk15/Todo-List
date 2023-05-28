@@ -151,6 +151,7 @@ nav > div button:hover{
     flex-direction: column;
     min-width: 600px;
     gap: 20px;
+    position: relative;
 }
 
 .project .project-title {
@@ -196,8 +197,6 @@ nav > div button:hover{
 
 .project .tasks .check:hover {
     cursor: pointer;
-    /* background-color: #d6e6da;
-    border-radius: 50%; */
 }
 
 .project .tasks .task-title {
@@ -224,4 +223,29 @@ nav > div button:hover{
     color: var(--primary-color);
     font-weight: 400;
     font-size: 25px;
+}
+
+.project .mini-modal{
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid var(--hover-color);
+    padding: var(--default-padding);
+    border-radius: 4px;
+    color: #2a2a2a;
+    
+}
+
+.project .sort-modal {
+    top: 40px;
+    left: 410px;
+}
+
+.project .mini-modal span {
+    display: block;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.project .mini-modal span:hover {
+    background-color: var(--hover-color);
 }
