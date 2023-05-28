@@ -28,10 +28,7 @@ const projectPage = (project) => {
     const createTasksList = () => {
         let i = 0;
         taskList.innerHTML = '';
-        console.log(project.getTasks());
         project.getTasks().forEach((task) => {
-            console.log(task);
-            console.log(createListItem(task, i));
             taskList.appendChild(createListItem(task, i));
             i += 1;
         });
@@ -87,11 +84,13 @@ const projectPage = (project) => {
         dueDateBtn.addEventListener('click', () => {
             project.sortByDueDate();
             createTasksList();
+            handleChecks();
         });
 
         priorityBtn.addEventListener('click', () => {
             project.sortByPriority();
             createTasksList();
+            handleChecks();
         });
     };
 
@@ -109,11 +108,19 @@ const projectPage = (project) => {
     };
 
     const handleDeleteMenu = () => {
-        const dueDateBtn = Utilities.getElement('.sort-dueDate');
+        const deleteCompletedBtn = Utilities.getElement('.delete-completed');
+        const deleteAllBtn = Utilities.getElement('.delete-all');
 
-        dueDateBtn.addEventListener('click', () => {
-            project.sortByDueDate();
+        deleteCompletedBtn.addEventListener('click', () => {
+            project.deleteCompleted();
             createTasksList();
+            handleChecks();
+        });
+
+        deleteAllBtn.addEventListener('click', () => {
+            project.deleteAll();
+            createTasksList();
+            handleChecks();
         });
     };
 
