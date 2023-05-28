@@ -175,7 +175,6 @@ nav > div button:hover{
 .project .tasks {
     display: flex;
     flex-direction: column;
-    gap: 5px;
 }
 
 .project .tasks h3 {
@@ -187,7 +186,7 @@ nav > div button:hover{
     gap: 20px;
     align-items: center;
     border-bottom: 1px solid var(--hover-color);
-    padding: var(--default-padding);
+    padding: 20px;
     
 }
 
@@ -195,8 +194,10 @@ nav > div button:hover{
     text-decoration: line-through;
 }
 
-.project .tasks li:hover {
+.project .tasks .check:hover {
     cursor: pointer;
+    /* background-color: #d6e6da;
+    border-radius: 50%; */
 }
 
 .project .tasks .task-title {
