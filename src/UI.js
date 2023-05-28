@@ -5,29 +5,13 @@ const projectPage = (project) => {
     const page = document.createElement('div');
     page.classList.add('project');
 
-    const createListItemIcon = (task) => {
-        const priorityColors = ['', '#d1453b', '#eb8909', '#246fe0', '#f3f3f3'];
-        if (task.isComplete) {
-            return `<i class="fa-regular fa-circle-check fa-lg" style="color: ${priorityColors[task.priority]};"></i>`;
-        }
-        return `<i class="fa-regular fa-circle fa-lg" style="color: ${priorityColors[task.priority]};"></i>`;
-    };
+    const projectTitle = document.createElement('div');
+    projectTitle.classList.add('project-title');
+    page.appendChild(projectTitle);
 
-    const createListItem = (task) => {
-        const li = document.createElement('li');
-        li.innerHTML = `<div>${createListItemIcon(task)}</div> <div class="task-main"><div class="task-title"><h3>${task.title}</h3> ${task.getDueDate()}</div>
-        <div>${task.description}</div> </div>`;
-        return li;
-    };
-
-    const createTasksList = () => {
-        const ul = document.createElement('ul');
-        ul.classList.add('tasks');
-        project.getTasks().forEach((task) => {
-            ul.appendChild(createListItem(task));
-        });
-        page.appendChild(ul);
-    };
+    const taskList = document.createElement('ul');
+    taskList.classList.add('tasks');
+    page.appendChild(taskList);
 
     const createBtn = (text, c) => {
         const btn = document.createElement('button');
@@ -47,40 +31,102 @@ const projectPage = (project) => {
     };
 
     const createHeader = () => {
-        const div = document.createElement('div');
-        div.classList.add('project-title');
-        div.innerHTML = `<h2>${project.title}</h2>`;
-        div.appendChild(groupBtns());
-        page.appendChild(div);
+        projectTitle.innerHTML = `<h2>${project.title}</h2>`;
+        projectTitle.appendChild(groupBtns());
+    };
+
+    const createListItemIcon = (task) => {
+        const priorityColors = ['', '#d1453b', '#eb8909', '#246fe0', '#474545'];
+        const icon = document.createElement('div');
+        icon.classList.add('check');
+        icon.innerHTML = `<i class="fa-regular fa-circle fa-lg" style="color: ${priorityColors[task.priority]};"></i>`;
+        return icon;
+    };
+
+    const createListItem = (task, index) => {
+        const li = document.createElement('li');
+        const icon = createListItemIcon(task);
+        li.dataset.index = index;
+        li.appendChild(icon);
+        li.innerHTML += `</div> <div class="task-main"><div class="task-title"><h3>${task.title}</h3> ${task.getDueDate()}</div>
+        <div>${task.description}</div> </div>`;
+        return li;
+    };
+
+    const createTasksList = () => {
+        let i = 0;
+        project.getTasks().forEach((task) => {
+            taskList.appendChild(createListItem(task, i));
+            i += 1;
+        });
+        console.log('Task list created');
     };
 
     const createAddTaskBtn = () => {
         const btn = document.createElement('button');
         btn.classList.add('add-task');
         btn.innerHTML += '<span>+</span> Add task';
+        btn.addEventListener('click', () => {
+            console.log('Click');
+        });
         page.appendChild(btn);
     };
 
-    createHeader();
-    createTasksList();
-    createAddTaskBtn();
+    const initializePage = () => {
+        createHeader();
+        createTasksList();
+        createAddTaskBtn();
+        return page;
+    };
+
+    const handleChecks = () => {
+        const checks = document.querySelectorAll('.check');
+
+        checks.forEach((check) => {
+            const taskIndex = check.parentElement.dataset.index;
+
+            check.addEventListener('mouseover', () => {
+                check.firstChild.classList.remove('fa-circle');
+                check.firstChild.classList.add('fa-circle-check');
+            });
+            check.addEventListener('mouseout', () => {
+                if (!project.findTask(taskIndex).isCompleted) {
+                    console.log(!project.findTask(taskIndex).isCompleted);
+                    check.firstChild.classList.remove('fa-circle-check');
+                    check.firstChild.classList.add('fa-circle');
+                }
+            });
+
+            check.addEventListener('click', () => {
+                project.findTask(taskIndex).completeTask();
+                check.parentElement.classList.add('completed');
+                check.firstChild.classList.remove('fa-circle');
+                check.firstChild.classList.add('fa-circle-check');
+            });
+        });
+    };
 
     return {
-        page,
+        initializePage,
+        handleChecks,
     };
 };
 
 const UI = (() => {
+    const currentPage = projectPage(TodoList.inbox).initializePage();
+
     const todayAmount = Utilities.getElement('.amount-today');
     const inboxAmount = Utilities.getElement('.amount-inbox');
     inboxAmount.innerHTML = TodoList.inbox.getTasksAmount();
     todayAmount.innerHTML = TodoList.getTodaysTasks().getTasksAmount();
 
-    console.log(TodoList.inbox.getTasks());
-    const inboxPage = projectPage(TodoList.inbox).page;
+    const initializeUI = () => {
+        projectPage(TodoList.inbox).handleChecks();
+    };
 
     return {
-        inboxPage,
+        currentPage,
+        initializeUI,
     };
 })();
 
