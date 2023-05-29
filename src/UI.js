@@ -19,7 +19,7 @@ const projectPage = (project, projectIndex) => {
         const priorityColors = ['', '#d1453b', '#eb8909', '#246fe0', '#474545'];
         const icon = document.createElement('div');
         icon.classList.add('check');
-        icon.innerHTML = `<i class="fa-regular fa-circle fa-lg" style="color: ${priorityColors[task.priority]};"></i>`;
+        icon.innerHTML = `<i class="fa-regular ${task.isCompleted ? 'fa-circle-check' : 'fa-circle'}  fa-lg" style="color: ${priorityColors[task.priority]};"></i>`;
         return icon;
     };
 
@@ -28,7 +28,10 @@ const projectPage = (project, projectIndex) => {
         const icon = createListItemIcon(task);
         li.dataset.index = index;
         li.appendChild(icon);
-        li.innerHTML += `</div> <div class="task-main"><div class="task-title"><h3>${task.title}</h3> ${task.getDueDate()}</div>
+        if (task.isCompleted) {
+            li.classList.add('completed');
+        }
+        li.innerHTML += `<div class="task-main"><div class="task-title"><h3>${task.title}</h3> ${task.getDueDate()}</div>
         <div>${task.description}</div> </div>`;
         return li;
     };
@@ -38,7 +41,6 @@ const projectPage = (project, projectIndex) => {
             return TodoList.getTodaysTasks();
         }
         if (projectIndex === 2) {
-            console.log(TodoList.getThisWeeksTasks());
             return TodoList.getThisWeeksTasks();
         }
         return project.getTasks();
@@ -70,6 +72,16 @@ const projectPage = (project, projectIndex) => {
             }
             i += 1;
         });
+    };
+
+    const createSortBtns = () => {
+        const sortModal = Utilities.getElement('.sort-modal');
+        sortModal.innerHTML = '<span class="sort-dueDate">Due Date</span><span class="sort-priority">Priority</span>';
+    };
+
+    const createDeleteBtns = () => {
+        const deleteModal = Utilities.getElement('.delete-modal');
+        deleteModal.innerHTML = '<span class="delete-completed">Delete Completed</span><span class="delete-all">Delete All</span>';
     };
 
     const handleChecks = () => {
@@ -140,7 +152,15 @@ const projectPage = (project, projectIndex) => {
         });
 
         deleteAllBtn.addEventListener('click', () => {
-            project.deleteAll();
+            if (projectIndex === 1) {
+                console.log(projectIndex, 'today');
+                project.deleteTodaysTasks();
+            } else if (projectIndex === 2) {
+                project.deleteThisWeeksTasks();
+            } else {
+                console.log(projectIndex);
+                project.deleteAll();
+            }
             createTasksList();
             handleChecks();
             updateTaskAmount();
@@ -150,6 +170,8 @@ const projectPage = (project, projectIndex) => {
     const initializePage = () => {
         getProjectTitle();
         createTasksList();
+        createSortBtns();
+        createDeleteBtns();
         updateTaskAmount();
         handleChecks();
         toggleMiniMenu('sort');

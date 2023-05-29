@@ -1,4 +1,6 @@
-import { parse, compareAsc } from 'date-fns';
+import {
+    parse, compareAsc, isToday, isThisWeek,
+} from 'date-fns';
 import Task from './Task';
 
 export default class Project {
@@ -48,6 +50,14 @@ export default class Project {
 
     deleteTask(index) {
         this.tasks.splice(index, 1);
+    }
+
+    deleteTodaysTasks() {
+        this.tasks = this.tasks.filter((task) => !isToday(task.dueDate));
+    }
+
+    deleteThisWeeksTasks() {
+        this.tasks = this.tasks.filter((task) => !isThisWeek(task.dueDate));
     }
 
     deleteCompleted() {
