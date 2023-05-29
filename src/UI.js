@@ -134,7 +134,6 @@ const projectPage = (project, projectIndex) => {
 
         deleteCompletedBtn.addEventListener('click', () => {
             project.deleteCompleted();
-            console.log(project.getTasks());
             createTasksList();
             handleChecks();
             updateTaskAmount();
@@ -183,7 +182,6 @@ const UI = (() => {
                 pages[navItem.id].initializePage();
                 removeSelectedFromAll();
                 navItem.classList.add('selected');
-                console.log(projects[navItem.id]);
             });
         });
     };
@@ -192,7 +190,7 @@ const UI = (() => {
         for (let i = 0; i < projects.length; i += 1) {
             let amountSpan = Utilities.getElement(`#amount-${i}`);
             if (i === 1 || i === 2) {
-                const tasks = TodoList.getProjects()[i];
+                let tasks = i === 1 ? TodoList.getTodaysTasks() : TodoList.getThisWeeksTasks();
                 let amount = 0;
                 for (let j = 0; j < tasks.length; j += 1) {
                     if (tasks[j] !== 0) {
@@ -206,17 +204,21 @@ const UI = (() => {
         }
     };
 
-    // const watchForClicks = () => {
-    //     document.addEventListener('click', () => {
-    //         updateTaskAmount();
-    //     });
-    // };
+    const handleDeleteBtns = () => {
+        const deleteBtns = Utilities.getElements('[class^="delete-"]');
+        deleteBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                updateTaskAmount();
+            });
+        });
+    };
 
     const initializeUI = () => {
         pages[0].initializePage();
         document.getElementById('0').classList.add('selected');
         controlPageNavigation();
         updateTaskAmount();
+        handleDeleteBtns();
     };
 
     return {
