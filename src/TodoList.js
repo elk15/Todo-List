@@ -3,47 +3,57 @@ import Project from './Project';
 
 const TodoList = (() => {
     const inbox = new Project('Inbox');
-    const userProjects = [];
 
-    inbox.addTask('Read', 'More books', '2023-5-26', 3);
+    inbox.addTask('Read', 'More books', '2023-5-29', 3);
     inbox.addTask('Program', '', '2023-5-27', 1);
-    inbox.addTask('Clean', 'Misery', '2023-5-27', 1);
+    inbox.addTask('Clean', 'Misery', '2023-5-29', 1);
     inbox.addTask('Study', 'Yay', '2023-5-26', 2);
-    inbox.addTask('Go to amusement park', 'Yay', '2023-6-29', 3);
+    inbox.addTask('Go to amusement park', 'Yay', '2023-5-30', 3);
+    inbox.addTask('Go to amusement park', 'Yay', '2023-5-31', 4);
 
     const getTodaysTasks = () => {
-        const tasks = inbox.getTasks().filter((task) => isToday(task.dueDate));
-        const todayInbox = new Project('Today');
-        tasks.forEach((task) => {
-            todayInbox.addTask(task.title, task.description, task.dueDate, task.priority);
-        });
-        return todayInbox;
+        const tasks = inbox.getTasks();
+        let todaysTasks = [];
+        for (let i = 0; i < tasks.length; i += 1) {
+            if (isToday(tasks[i].dueDate)) {
+                todaysTasks[i] = tasks[i];
+            } else {
+                todaysTasks[i] = 0;
+            }
+        }
+        return todaysTasks;
     };
 
     const getThisWeeksTasks = () => {
-        const tasks = inbox.getTasks().filter((task) => isThisWeek(task.dueDate));
-        const thisWeekInbox = new Project('This Week');
-        tasks.forEach((task) => {
-            thisWeekInbox.addTask(task.title, task.description, task.dueDate, task.priority);
-        });
-        return thisWeekInbox;
+        const tasks = inbox.getTasks();
+        let thisWeeksTasks = [];
+        for (let i = 0; i < tasks.length; i += 1) {
+            if (isThisWeek(tasks[i].dueDate)) {
+                thisWeeksTasks[i] = tasks[i];
+            } else {
+                thisWeeksTasks[i] = 0;
+            }
+        }
+        return thisWeeksTasks;
     };
 
+    const projects = [inbox, getTodaysTasks(), getThisWeeksTasks()];
+
     const addProject = (title) => {
-        userProjects.push(new Project(title));
+        projects.push(new Project(title));
     };
 
     const deleteProject = (index) => {
-        userProjects.splice(index, 1);
+        projects.splice(index, 1);
     };
 
     const renameProject = (index, newTitle) => {
-        userProjects[index].changeProjectTitle(newTitle);
+        projects[index].changeProjectTitle(newTitle);
     };
 
-    const findProject = (index) => userProjects[index];
+    const findProject = (index) => projects[index];
 
-    const getProjects = () => userProjects;
+    const getProjects = () => projects;
 
     return {
         inbox,

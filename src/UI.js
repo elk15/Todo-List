@@ -5,14 +5,15 @@ const projectPage = (project, projectIndex) => {
     const projectTitle = Utilities.getElement('.project-title');
     const taskList = Utilities.getElement('.tasks');
 
-    const taskAmount = Utilities.getElement(`#amount-${projectIndex}`);
-    taskAmount.innerHTML = project.getTasksAmount();
-
-    const updateAmount = () => {
-        taskAmount.innerHTML = project.getTasksAmount();
+    const getProjectTitle = () => {
+        if (projectIndex === 1) {
+            projectTitle.firstChild.innerHTML = 'Today';
+        } else if (projectIndex === 2) {
+            projectTitle.firstChild.innerHTML = 'This Week';
+        } else {
+            projectTitle.firstChild.innerHTML = project.title;
+        }
     };
-
-    projectTitle.firstChild.innerHTML = project.title;
 
     const createListItemIcon = (task) => {
         const priorityColors = ['', '#d1453b', '#eb8909', '#246fe0', '#474545'];
@@ -32,11 +33,41 @@ const projectPage = (project, projectIndex) => {
         return li;
     };
 
+    const getProjectTasks = () => {
+        if (projectIndex === 1) {
+            return TodoList.getTodaysTasks();
+        }
+        if (projectIndex === 2) {
+            console.log(TodoList.getThisWeeksTasks());
+            return TodoList.getThisWeeksTasks();
+        }
+        return project.getTasks();
+    };
+
+    const updateTaskAmount = () => {
+        const taskAmountSpan = Utilities.getElement(`#amount-${projectIndex}`);
+        let amount = 0;
+        if (projectIndex === 1 || projectIndex === 2) {
+            const tasks = getProjectTasks();
+            for (let i = 0; i < tasks.length; i += 1) {
+                if (tasks[i] !== 0) {
+                    amount += 1;
+                }
+            }
+        } else {
+            amount = project.getTasksAmount();
+        }
+        taskAmountSpan.innerHTML = amount;
+    };
+
     const createTasksList = () => {
         let i = 0;
         taskList.innerHTML = '';
-        project.getTasks().forEach((task) => {
-            taskList.appendChild(createListItem(task, i));
+        const tasks = getProjectTasks();
+        tasks.forEach((task) => {
+            if (task !== 0) {
+                taskList.appendChild(createListItem(task, i));
+            }
             i += 1;
         });
     };
@@ -103,21 +134,24 @@ const projectPage = (project, projectIndex) => {
 
         deleteCompletedBtn.addEventListener('click', () => {
             project.deleteCompleted();
+            console.log(project.getTasks());
             createTasksList();
             handleChecks();
-            updateAmount();
+            updateTaskAmount();
         });
 
         deleteAllBtn.addEventListener('click', () => {
             project.deleteAll();
             createTasksList();
             handleChecks();
-            updateAmount();
+            updateTaskAmount();
         });
     };
 
     const initializePage = () => {
+        getProjectTitle();
         createTasksList();
+        updateTaskAmount();
         handleChecks();
         toggleMiniMenu('sort');
         toggleMiniMenu('delete');
@@ -131,12 +165,63 @@ const projectPage = (project, projectIndex) => {
 };
 
 const UI = (() => {
+    const pages = [projectPage(TodoList.inbox, 0), projectPage(TodoList.inbox, 1),
+        projectPage(TodoList.inbox, 2)];
+
+    const navItems = Utilities.getElements('.nav-item');
+    const projects = TodoList.getProjects();
+
+    const removeSelectedFromAll = () => {
+        navItems.forEach((navItem) => {
+            navItem.classList.remove('selected');
+        });
+    };
+
+    const controlPageNavigation = () => {
+        navItems.forEach((navItem) => {
+            navItem.addEventListener('click', () => {
+                pages[navItem.id].initializePage();
+                removeSelectedFromAll();
+                navItem.classList.add('selected');
+                console.log(projects[navItem.id]);
+            });
+        });
+    };
+
+    const updateTaskAmount = () => {
+        for (let i = 0; i < projects.length; i += 1) {
+            let amountSpan = Utilities.getElement(`#amount-${i}`);
+            if (i === 1 || i === 2) {
+                const tasks = TodoList.getProjects()[i];
+                let amount = 0;
+                for (let j = 0; j < tasks.length; j += 1) {
+                    if (tasks[j] !== 0) {
+                        amount += 1;
+                    }
+                }
+                amountSpan.innerHTML = amount;
+            } else {
+                amountSpan.innerHTML = projects[i].getTasksAmount();
+            }
+        }
+    };
+
+    // const watchForClicks = () => {
+    //     document.addEventListener('click', () => {
+    //         updateTaskAmount();
+    //     });
+    // };
+
     const initializeUI = () => {
-        projectPage(TodoList.inbox, 0).initializePage();
+        pages[0].initializePage();
+        document.getElementById('0').classList.add('selected');
+        controlPageNavigation();
+        updateTaskAmount();
     };
 
     return {
         initializeUI,
+
     };
 })();
 
