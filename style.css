@@ -213,13 +213,13 @@ nav > div button:hover{
     width: 100%;
 }
 
-.project .add-task {
+.project .add-task button{
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.project .add-task:hover {
+.project .add-task button:hover {
     color: var(--primary-color);
 }
 
