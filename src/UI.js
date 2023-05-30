@@ -7,7 +7,6 @@ const UI = (() => {
         ProjectPage.for(TodoList.inbox, 2)];
 
     const navItems = Utilities.getElements('.nav-item');
-    const projects = TodoList.getProjects();
 
     const removeSelectedFromAll = () => {
         navItems.forEach((navItem) => {
@@ -26,20 +25,8 @@ const UI = (() => {
     };
 
     const updateTaskAmount = () => {
-        for (let i = 0; i < projects.length; i += 1) {
-            let amountSpan = Utilities.getElement(`#amount-${i}`);
-            if (i === 1 || i === 2) {
-                let tasks = i === 1 ? TodoList.inbox.getTodaysTasks() : TodoList.inbox.getThisWeeksTasks();
-                let amount = 0;
-                for (let j = 0; j < tasks.length; j += 1) {
-                    if (tasks[j] !== 0) {
-                        amount += 1;
-                    }
-                }
-                amountSpan.innerHTML = amount;
-            } else {
-                amountSpan.innerHTML = projects[i].getTasksAmount();
-            }
+        for (let i = 0; i < pages.length; i += 1) {
+            pages[i].updateTaskAmount();
         }
     };
 
