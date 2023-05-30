@@ -72,15 +72,61 @@ export default class Project {
         return this.tasks;
     }
 
+    getTodaysTasks() {
+        let todaysTasks = [];
+        for (let i = 0; i < this.tasks.length; i += 1) {
+            if (isToday(this.tasks[i].dueDate)) {
+                todaysTasks[i] = this.tasks[i];
+            } else {
+                todaysTasks[i] = 0;
+            }
+        }
+        return todaysTasks;
+    }
+
+    getThisWeeksTasks() {
+        let thisWeeksTasks = [];
+        for (let i = 0; i < this.tasks.length; i += 1) {
+            if (isThisWeek(this.tasks[i].dueDate)) {
+                thisWeeksTasks[i] = this.tasks[i];
+            } else {
+                thisWeeksTasks[i] = 0;
+            }
+        }
+        return thisWeeksTasks;
+    }
+
+    getTasksAmount() {
+        return this.tasks.length;
+    }
+
+    getTodaysTasksAmount() {
+        let amount = 0;
+        const tasks = this.getTodaysTasks();
+        for (let i = 0; i < tasks.length; i += 1) {
+            if (tasks[i] !== 0) {
+                amount += 1;
+            }
+        }
+        return amount;
+    }
+
+    getThisWeeksTasksAmount() {
+        let amount = 0;
+        const tasks = this.getThisWeeksTasks();
+        for (let i = 0; i < tasks.length; i += 1) {
+            if (tasks[i] !== 0) {
+                amount += 1;
+            }
+        }
+        return amount;
+    }
+
     sortByPriority() {
         this.tasks.sort((a, b) => a.priority - b.priority);
     }
 
     sortByDueDate() {
         this.tasks.sort((a, b) => compareAsc(a.dueDate, b.dueDate));
-    }
-
-    getTasksAmount() {
-        return this.tasks.length;
     }
 }
