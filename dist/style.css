@@ -261,7 +261,7 @@ nav > div button:hover{
 }
 
 /* Add task modal */
-.project .add-task{
+.project .add-task > div{
     display: flex;
     flex-direction: column;
     gap:10px;
@@ -289,6 +289,7 @@ nav > div button:hover{
 
 .project .add-task #dueDate {
     color: #2a2a2a;
+    border-radius: 5px;
 }
 
 .project .add-task .set-priority:hover {
@@ -324,8 +325,7 @@ nav > div button:hover{
 
 .cancel-btn, .add-btn {
     padding: 8px;
-    font-weight: 400;
-    font-size: 15px !important;
+    font-weight: 500;
 }
 
 .cancel-btn {

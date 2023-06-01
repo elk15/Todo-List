@@ -90,8 +90,32 @@ export default class ProjectPage {
     }
 
     createAddTaskBtn() {
-        const addBtnDiv = Utilities.getElement('.add-task');
+        const addBtnDiv = Utilities.getElement('.add-task-btn');
         addBtnDiv.innerHTML = '<button><span>+</span>Add task</button>';
+    }
+
+    createAddTaskModal() {
+        const addTaskDiv = Utilities.getElement('.add-task');
+        addTaskDiv.innerHTML = `<div>
+                                    <input type="text" name="taskName" id="taskName" placeholder="Task name">
+                                    <input type="text" name="description" id="description" placeholder="Description (optional)">
+                                    <div>
+                                        <input type="date" id="dueDate" name="due-date" value="2023-05-15">
+                                        <button class="set-priority" data-priority-number="4"><i class="fa-regular fa-flag" style="color: #474545;"></i> Priority 4</button>
+                                    </div>
+                                    <div>
+                                        <button class="cancel-add-task cancel-btn">Cancel</button>
+                                        <button class="submit-task add-btn">Add task</button>
+                                    </div>
+                                    <div class="priority-modal hide">
+                                        <div>
+                                            <span class="priority-option" data-priority-number="1"><i class="fa-regular fa-flag" style="color: #d1453b;"></i> Priority 1</span>
+                                            <span class="priority-option" data-priority-number="2"><i class="fa-regular fa-flag" style="color: #eb8909;"></i> Priority 2</span>
+                                            <span class="priority-option" data-priority-number="3"><i class="fa-regular fa-flag" style="color: #246fe0;"></i> Priority 3</span>
+                                            <span class="priority-option" data-priority-number="4"><i class="fa-regular fa-flag" style="color: #474545;"></i> Priority 4</span>
+                                        </div>
+                                    </div>
+                                </div>`;
     }
 
     updatePage() {
@@ -171,6 +195,7 @@ export default class ProjectPage {
         this.createSortBtns();
         this.createDeleteBtns();
         this.createAddTaskBtn();
+        this.createAddTaskModal();
         this.updateTaskAmount();
         this.attachEventListeners();
     }
