@@ -213,17 +213,17 @@ nav > div button:hover{
     width: 100%;
 }
 
-.project .add-task button{
+.project .add-task-btn button{
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.project .add-task button:hover {
+.project .add-task-btn button:hover {
     color: var(--primary-color);
 }
 
-.project .add-task span {
+.project .add-task-btn span {
     color: var(--primary-color);
     font-weight: 400;
     font-size: 25px;
@@ -258,4 +258,82 @@ nav > div button:hover{
 .project .mini-modal span:hover {
     background-color: var(--hover-color);
     cursor: pointer;
+}
+
+/* Add task modal */
+.project .add-task{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    border: 1px solid var(--hover-color);
+    border-radius: 15px;
+    padding: var(--default-padding);
+    position: relative;
+}
+
+.project .add-task input {
+    padding: 5px;
+    border: none;
+    font-size: 15px;
+}
+
+.project .add-task input:focus{
+    outline: none;
+}
+
+.project .add-task #dueDate, .project .add-task .set-priority {
+    border: 1px solid var(--hover-color);
+    padding: var(--default-padding);
+    font-size: 15px;
+}
+
+.project .add-task #dueDate {
+    color: #2a2a2a;
+}
+
+.project .add-task .set-priority:hover {
+    background-color: var(--hover-color);
+}
+
+.project .add-task div:nth-child(4) {
+    align-self: flex-end;
+    margin-top: 30px;
+}
+
+.project .add-task .priority-modal{
+    overflow-y: scroll;
+    width: 100px;
+    height: 70px;
+    border: 1px solid var(--hover-color);
+    padding: 5px;
+    position: absolute;
+    top: 130px;
+    left: 158px;
+    font-weight: 300;
+}
+
+.project .add-task .priority-modal div {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.project .add-task .priority-modal span:hover {
+    cursor: pointer;
+}
+
+.cancel-btn, .add-btn {
+    padding: 8px;
+    font-weight: 400;
+    font-size: 15px !important;
+}
+
+.cancel-btn {
+    color: #2a2a2a;
+    background-color: rgb(233, 229, 229);
+}
+
+.add-btn {
+    color: #fff;
+    background-color: var(--primary-color);
 }
