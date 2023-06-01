@@ -182,11 +182,20 @@ export default class ProjectPage {
         });
     }
 
+    handleAddTaskBtn() {
+        const addTaskBtn = Utilities.getElement('.add-task-btn').firstChild;
+        addTaskBtn.addEventListener('click', () => {
+            Utilities.hideElement('.add-task-btn');
+            Utilities.showElement('.add-task');
+        });
+    }
+
     attachEventListeners() {
         this.handleChecks();
         this.handleSortMenu();
         this.handleDeleteCompleted();
         this.handleDeleteAll();
+        this.handleAddTaskBtn();
     }
 
     initializePage() {
