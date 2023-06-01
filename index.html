@@ -36,7 +36,27 @@
                     </div>
                 </div>
                 <ul class="tasks"></ul>
-                <div class="add-task"></div>
+                <div class="add-task-btn"></div>
+                <div class="add-task">
+                    <input type="text" name="taskName" id="taskName" placeholder="Task name">
+                    <input type="text" name="description" id="description" placeholder="Description (optional)">
+                    <div>
+                        <input type="date" id="dueDate" name="due-date" value="2023-05-15">
+                        <button class="set-priority" data-priority-number="4"><i class="fa-regular fa-flag" style="color: #474545;"></i> Priority 4</button>
+                    </div>
+                    <div>
+                        <button class="cancel-add-task cancel-btn">Cancel</button>
+                        <button class="submit-task add-btn">Add task</button>
+                    </div>
+                    <div class="priority-modal">
+                        <div>
+                            <span class="priority-option" data-priority-number="1"><i class="fa-regular fa-flag" style="color: #d1453b;"></i> Priority 1</span>
+                            <span class="priority-option" data-priority-number="2"><i class="fa-regular fa-flag" style="color: #eb8909;"></i> Priority 2</span>
+                            <span class="priority-option" data-priority-number="3"><i class="fa-regular fa-flag" style="color: #246fe0;"></i> Priority 3</span>
+                            <span class="priority-option" data-priority-number="4"><i class="fa-regular fa-flag" style="color: #474545;"></i> Priority 4</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="sort-modal mini-modal hide"></div>
                 <div class="delete-modal mini-modal hide"></div>
             </div>
