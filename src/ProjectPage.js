@@ -17,10 +17,6 @@ export default class ProjectPage {
         return new projectPageClass(project, projectIndex);
     }
 
-    static register(candicate) {
-        ProjectPage.registry.unshift(candicate);
-    }
-
     static projectSection = Utilities.getElement('.project');
 
     static projectTitle = Utilities.getElement('.project-title');
@@ -190,12 +186,42 @@ export default class ProjectPage {
         });
     }
 
+    handleAddTaskModal() {
+        const titleInput = Utilities.getElement('#taskName');
+        const descriptionInput = Utilities.getElement('#description');
+        const dueDateInput = Utilities.getElement('#dueDate');
+        const priorityInput = Utilities.getElement('.set-priority');
+        const cancelBtn = Utilities.getElement('.cancel-add-task');
+        const submitBtn = Utilities.getElement('.submit-task');
+
+        cancelBtn.addEventListener('click', () => {
+            Utilities.showElement('.add-task-btn');
+            Utilities.hideElement('.add-task');
+        });
+
+        submitBtn.addEventListener('click', () => {
+            if (titleInput.value !== '') {
+                this.project.addTask(
+                    titleInput.value,
+                    descriptionInput.value,
+                    dueDateInput.value,
+                    priorityInput.value,
+                );
+                this.updatePage();
+                console.log(this.project.getTasks());
+                Utilities.showElement('.add-task-btn');
+                Utilities.hideElement('.add-task');
+            }
+        });
+    }
+
     attachEventListeners() {
         this.handleChecks();
         this.handleSortMenu();
         this.handleDeleteCompleted();
         this.handleDeleteAll();
         this.handleAddTaskBtn();
+        this.handleAddTaskModal();
     }
 
     initializePage() {
@@ -209,8 +235,6 @@ export default class ProjectPage {
         this.attachEventListeners();
     }
 }
-
-ProjectPage.registry = [ProjectPage];
 
 class ProjectPageToday extends ProjectPage {
     setProjectTitle() {
@@ -235,8 +259,6 @@ class ProjectPageToday extends ProjectPage {
     }
 }
 
-ProjectPage.register(ProjectPageToday);
-
 class ProjectPageThisWeek extends ProjectPage {
     setProjectTitle() {
         ProjectPage.projectTitle.firstChild.innerHTML = 'This Week';
@@ -259,5 +281,3 @@ class ProjectPageThisWeek extends ProjectPage {
         });
     }
 }
-
-ProjectPage.register(ProjectPageThisWeek);

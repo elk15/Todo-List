@@ -14,16 +14,6 @@ const UI = (() => {
         });
     };
 
-    const controlPageNavigation = () => {
-        navItems.forEach((navItem) => {
-            navItem.addEventListener('click', () => {
-                pages[navItem.id].initializePage();
-                removeSelectedFromAll();
-                navItem.classList.add('selected');
-            });
-        });
-    };
-
     const updateTaskAmount = () => {
         for (let i = 0; i < pages.length; i += 1) {
             pages[i].updateTaskAmount();
@@ -35,6 +25,25 @@ const UI = (() => {
         deleteBtns.forEach((btn) => {
             btn.addEventListener('click', () => {
                 updateTaskAmount();
+            });
+        });
+    };
+
+    const handleSubmitTaskBtn = () => {
+        const submitTaskBtn = Utilities.getElement('.submit-task');
+        submitTaskBtn.addEventListener('click', () => {
+            updateTaskAmount();
+        });
+    };
+
+    const controlPageNavigation = () => {
+        navItems.forEach((navItem) => {
+            navItem.addEventListener('click', () => {
+                pages[navItem.id].initializePage();
+                removeSelectedFromAll();
+                navItem.classList.add('selected');
+                handleSubmitTaskBtn();
+                handleDeleteBtns();
             });
         });
     };
@@ -61,6 +70,7 @@ const UI = (() => {
         controlPageNavigation();
         updateTaskAmount();
         handleDeleteBtns();
+        handleSubmitTaskBtn();
     };
 
     return {
