@@ -63,6 +63,7 @@ export default class ProjectPage {
 
     createListItem(task, index) {
         const li = document.createElement('li');
+        li.classList.add('task');
         const icon = this.createListItemIcon(task);
         li.dataset.index = index;
         li.appendChild(icon);
@@ -70,7 +71,7 @@ export default class ProjectPage {
             li.classList.add('completed');
         }
         li.innerHTML += `<h3 class="task-title">${task.title}</h3> 
-                        <div class="task-btns">
+                        <div class="task-btns hide">
                         <button class="edit-task-btn"><i class="fa-regular fa-pen-to-square" style="color: #888a85;"></i></button>
                         <button class="delete-task-btn"><i class="fa-regular fa-trash-can" style="color: #888a85;"></i></button>
                         </div>
@@ -151,8 +152,24 @@ export default class ProjectPage {
             check.addEventListener('click', () => {
                 this.project.findTask(taskIndex).completeTask();
                 check.parentElement.classList.add('completed');
+                check.parentElement.querySelector('.task-title').classList.add('completed');
+                check.parentElement.querySelector('.task-description').classList.add('completed');
+                check.parentElement.querySelector('.task-due-date').classList.add('completed');
                 check.firstChild.classList.remove('fa-circle');
                 check.firstChild.classList.add('fa-circle-check');
+            });
+        });
+    }
+
+    toggleTaskBtns() {
+        const tasks = Utilities.getElements('.task');
+        tasks.forEach((task) => {
+            const btns = task.querySelector('.task-btns');
+            task.addEventListener('mouseover', () => {
+                btns.classList.remove('hide');
+            });
+            task.addEventListener('mouseout', () => {
+                btns.classList.add('hide');
             });
         });
     }
@@ -253,6 +270,7 @@ export default class ProjectPage {
 
     attachEventListeners() {
         this.handleChecks();
+        this.toggleTaskBtns();
         this.handleSortMenu();
         this.handleDeleteCompleted();
         this.handleDeleteAll();
