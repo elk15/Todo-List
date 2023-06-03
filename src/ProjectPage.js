@@ -90,13 +90,18 @@ export default class ProjectPage {
         addBtnDiv.innerHTML = '<button><span>+</span>Add task</button>';
     }
 
+    getCurrentDate() {
+        const date = new Date();
+        return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+    }
+
     createAddTaskModal() {
         const addTaskDiv = Utilities.getElement('.add-task');
         addTaskDiv.innerHTML = `<div>
                                     <input type="text" name="taskName" id="taskName" placeholder="Task name">
                                     <input type="text" name="description" id="description" placeholder="Description (optional)">
                                     <div>
-                                        <input type="date" id="dueDate" name="due-date" value="2023-05-15">
+                                        <input type="date" id="dueDate" name="due-date" value="${this.getCurrentDate()}">
                                         <button class="set-priority" data-priority-number="4"><i class="fa-regular fa-flag" style="color: #474545;"></i> Priority 4</button>
                                     </div>
                                     <div>
