@@ -191,19 +191,49 @@ nav > div button:hover{
 }
 
 .project .tasks li{
-    display: flex;
-    gap: 20px;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 20px 1fr 100px;
+    grid-template-rows: 20px 1fr 20px;
+    gap: 10px;
     border-bottom: 1px solid var(--hover-color);
     padding: 20px;
     
 }
 
+.project .tasks li .check {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    margin-top: 2px;
+}
+
+.project .tasks li .task-title {
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+
+.project .tasks li .task-btns {
+    grid-column: 3/4;
+    grid-row: 1/2;
+}
+
+.project .tasks li .task-description {
+    grid-column: 2/4;
+    grid-row: 2/3;
+    font-size: 14px;
+}
+
+.project .tasks li .task-due-date{
+    grid-column: 2/4;
+    grid-row: 3/4;
+    font-size: 15px;
+}
+
+
 .project .tasks .check:hover {
     cursor: pointer;
 }
 
-.project .tasks .task-title {
+/* .project .tasks .task-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -211,7 +241,7 @@ nav > div button:hover{
 
 .project .tasks .task-main {
     width: 100%;
-}
+} */
 
 .project .add-task-btn button{
     display: flex;

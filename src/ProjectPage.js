@@ -69,8 +69,13 @@ export default class ProjectPage {
         if (task.isCompleted) {
             li.classList.add('completed');
         }
-        li.innerHTML += `<div class="task-main"><div class="task-title"><h3>${task.title}</h3> ${task.getDueDate()}</div>
-        <div>${task.description}</div> </div>`;
+        li.innerHTML += `<h3 class="task-title">${task.title}</h3> 
+                        <div class="task-btns">
+                        <button class="edit-task-btn"><i class="fa-regular fa-pen-to-square" style="color: #888a85;"></i></button>
+                        <button class="delete-task-btn"><i class="fa-regular fa-trash-can" style="color: #888a85;"></i></button>
+                        </div>
+                        <div class="task-description">${task.description}</div>
+                        <div class="task-due-date">${task.getDueDate()}</div>`;
         return li;
     }
 
@@ -98,8 +103,8 @@ export default class ProjectPage {
     createAddTaskModal() {
         const addTaskDiv = Utilities.getElement('.add-task');
         addTaskDiv.innerHTML = `<div>
-                                    <input type="text" name="taskName" id="taskName" placeholder="Task name">
-                                    <input type="text" name="description" id="description" placeholder="Description (optional)">
+                                    <input type="text" name="taskName" id="taskName" placeholder="Task name" maxlength="35">
+                                    <input type="text" name="description" id="description" placeholder="Description (optional)" maxlength="50">
                                     <div>
                                         <input type="date" id="dueDate" name="due-date" value="${this.getCurrentDate()}">
                                         <button class="set-priority" data-priority-number="4"><i class="fa-regular fa-flag" style="color: #474545;"></i> Priority 4</button>
