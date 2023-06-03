@@ -233,16 +233,6 @@ nav > div button:hover{
     cursor: pointer;
 }
 
-/* .project .tasks .task-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.project .tasks .task-main {
-    width: 100%;
-} */
-
 .project .add-task-btn button{
     display: flex;
     align-items: center;
