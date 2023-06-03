@@ -20,6 +20,12 @@ const UI = (() => {
         }
     };
 
+    const closeAddTaskModal = () => {
+        for (let i = 0; i < pages.length; i += 1) {
+            pages[i].closeAddTaskModal();
+        }
+    };
+
     const handleDeleteBtns = () => {
         const deleteBtns = Utilities.getElements('[class^="delete-"]');
         deleteBtns.forEach((btn) => {
@@ -39,6 +45,7 @@ const UI = (() => {
     const controlPageNavigation = () => {
         navItems.forEach((navItem) => {
             navItem.addEventListener('click', () => {
+                closeAddTaskModal();
                 pages[navItem.id].initializePage();
                 removeSelectedFromAll();
                 navItem.classList.add('selected');
