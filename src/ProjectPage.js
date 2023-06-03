@@ -205,13 +205,32 @@ export default class ProjectPage {
                     titleInput.value,
                     descriptionInput.value,
                     dueDateInput.value,
-                    priorityInput.value,
+                    priorityInput.dataset.priorityNumber,
                 );
                 this.updatePage();
                 console.log(this.project.getTasks());
                 Utilities.showElement('.add-task-btn');
                 Utilities.hideElement('.add-task');
             }
+        });
+    }
+
+    handlePriorityBtn() {
+        const priorityBtn = Utilities.getElement('.set-priority');
+        priorityBtn.addEventListener('click', () => {
+            Utilities.showElement('.priority-modal');
+        });
+    }
+
+    handlePriorityModal() {
+        const prioritySpans = Utilities.getElements('.priority-option');
+        const priorityInput = Utilities.getElement('.set-priority');
+        prioritySpans.forEach((span) => {
+            span.addEventListener('click', () => {
+                priorityInput.innerHTML = span.innerHTML;
+                priorityInput.dataset.priorityNumber = span.dataset.priorityNumber;
+                Utilities.hideElement('.priority-modal');
+            });
         });
     }
 
@@ -222,6 +241,8 @@ export default class ProjectPage {
         this.handleDeleteAll();
         this.handleAddTaskBtn();
         this.handleAddTaskModal();
+        this.handlePriorityBtn();
+        this.handlePriorityModal();
     }
 
     initializePage() {
