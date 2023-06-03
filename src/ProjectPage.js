@@ -191,6 +191,16 @@ export default class ProjectPage {
         });
     }
 
+    closeAddTaskModal() {
+        Utilities.showElement('.add-task-btn');
+        Utilities.hideElement('.add-task');
+        Utilities.getElement('#taskName').value = '';
+        Utilities.getElement('#description').value = '';
+        Utilities.getElement('#dueDate').value = this.getCurrentDate();
+        Utilities.getElement('.set-priority').dataset.priorityNumber = 4;
+        Utilities.getElement('.set-priority').innerHTML = '<i class="fa-regular fa-flag" style="color: #474545;"></i> Priority 4';
+    }
+
     handleAddTaskModal() {
         const titleInput = Utilities.getElement('#taskName');
         const descriptionInput = Utilities.getElement('#description');
@@ -200,8 +210,7 @@ export default class ProjectPage {
         const submitBtn = Utilities.getElement('.submit-task');
 
         cancelBtn.addEventListener('click', () => {
-            Utilities.showElement('.add-task-btn');
-            Utilities.hideElement('.add-task');
+            this.closeAddTaskModal();
         });
 
         submitBtn.addEventListener('click', () => {
@@ -213,9 +222,7 @@ export default class ProjectPage {
                     priorityInput.dataset.priorityNumber,
                 );
                 this.updatePage();
-                console.log(this.project.getTasks());
-                Utilities.showElement('.add-task-btn');
-                Utilities.hideElement('.add-task');
+                this.closeAddTaskModal();
             }
         });
     }
