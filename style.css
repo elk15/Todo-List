@@ -281,7 +281,7 @@ nav > div button:hover{
 }
 
 /* Add task modal */
-.project .add-task > div{
+.project .add-task > div, .project .edit-task > div{
     display: flex;
     flex-direction: column;
     gap:10px;
@@ -291,37 +291,37 @@ nav > div button:hover{
     position: relative;
 }
 
-.project .add-task input {
+.project .add-task input, .project .edit-task input{
     padding: 5px;
     border: none;
     font-size: 15px;
 }
 
-.project .add-task input:focus{
+.project .add-task input:focus, .project .edit-task input:focus{
     outline: none;
 }
 
-.project .add-task #dueDate, .project .add-task .set-priority {
+.project .add-task #dueDate, .project .add-task .set-priority, .project .edit-task #dueDate, .project .edit-task .set-priority {
     border: 1px solid var(--hover-color);
     padding: var(--default-padding);
     font-size: 15px;
 }
 
-.project .add-task #dueDate {
+.project .add-task #dueDate, .project .edit-task #dueDate {
     color: #2a2a2a;
     border-radius: 5px;
 }
 
-.project .add-task .set-priority:hover {
+.project .add-task .set-priority:hover, .project .edit-task .set-priority:hover {
     background-color: var(--hover-color);
 }
 
-.project .add-task div:nth-child(4) {
+.project .add-task div:nth-child(4), .project .edit-task div:nth-child(4) {
     align-self: flex-end;
     margin-top: 30px;
 }
 
-.project .add-task .priority-modal{
+.project .add-task .priority-modal, .project .edit-task .priority-modal{
     overflow-y: scroll;
     width: 100px;
     height: 70px;
@@ -333,13 +333,13 @@ nav > div button:hover{
     font-weight: 300;
 }
 
-.project .add-task .priority-modal div {
+.project .add-task .priority-modal div, .project .edit-task .priority-modal div {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.project .add-task .priority-modal span:hover {
+.project .add-task .priority-modal span:hover, .project .edit-task .priority-modal span:hover {
     cursor: pointer;
 }
 
