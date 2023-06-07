@@ -26,11 +26,33 @@ const UI = (() => {
         }
     };
 
-    const handleDeleteBtns = () => {
-        const deleteBtns = Utilities.getElements('[class^="delete-"]');
+    const handleDeleteCompleted = () => {
+        const deleteBtn = Utilities.getElement('.delete-completed');
+
+        deleteBtn.addEventListener('click', () => {
+            updateTaskAmount();
+            handleEditTaskBtns();
+            handleDeleteTask();
+        });
+    };
+
+    const handleDeleteAll = () => {
+        const deleteBtn = Utilities.getElement('.delete-all');
+
+        deleteBtn.addEventListener('click', () => {
+            updateTaskAmount();
+            handleEditTaskBtns();
+            handleDeleteTask();
+        });
+    };
+
+    const handleDeleteTask = () => {
+        const deleteBtns = Utilities.getElements('.delete-task-btn');
         deleteBtns.forEach((btn) => {
             btn.addEventListener('click', () => {
                 updateTaskAmount();
+                handleEditTaskBtns();
+                handleDeleteTask();
             });
         });
     };
@@ -39,7 +61,51 @@ const UI = (() => {
         const submitTaskBtn = Utilities.getElement('.submit-task');
         submitTaskBtn.addEventListener('click', () => {
             updateTaskAmount();
+            handleEditTaskBtns();
+            handleDeleteTask();
         });
+    };
+
+    const handleEditTaskBtns = () => {
+        const editTaskBtns = Utilities.getElements('.edit-task-btn');
+        editTaskBtns.forEach((editBtn) => {
+            editBtn.addEventListener('click', () => {
+                const updateBtn = Utilities.getElement('.edit-task');
+                updateBtn.addEventListener('click', () => {
+                    updateTaskAmount();
+                    handleEditTaskBtns();
+                    handleDeleteTask();
+                });
+
+                const cancelBtn = Utilities.getElement('.cancel-edit-task');
+                cancelBtn.addEventListener('click', () => {
+                    handleEditTaskBtns();
+                    handleDeleteTask();
+                });
+            });
+        });
+    };
+
+    const handleSortBtns = () => {
+        const sortDueDateBtn = Utilities.getElement('.sort-dueDate');
+        sortDueDateBtn.addEventListener('click', () => {
+            handleEditTaskBtns();
+            handleDeleteTask();
+        });
+        const sortPriorityBtn = Utilities.getElement('.sort-priority');
+        sortPriorityBtn.addEventListener('click', () => {
+            handleEditTaskBtns();
+            handleDeleteTask();
+        });
+    };
+
+    const attachEventListeners = () => {
+        handleDeleteAll();
+        handleDeleteCompleted();
+        handleDeleteTask();
+        handleSubmitTaskBtn();
+        handleEditTaskBtns();
+        handleSortBtns();
     };
 
     const controlPageNavigation = () => {
@@ -49,8 +115,7 @@ const UI = (() => {
                 pages[navItem.id].initializePage();
                 removeSelectedFromAll();
                 navItem.classList.add('selected');
-                handleSubmitTaskBtn();
-                handleDeleteBtns();
+                attachEventListeners();
             });
         });
     };
@@ -76,8 +141,7 @@ const UI = (() => {
         toggleMiniMenu('delete');
         controlPageNavigation();
         updateTaskAmount();
-        handleDeleteBtns();
-        handleSubmitTaskBtn();
+        attachEventListeners();
     };
 
     return {

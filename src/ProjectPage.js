@@ -137,6 +137,7 @@ export default class ProjectPage {
         this.handleChecks();
         this.updateTaskAmount();
         this.editTasks();
+        this.deleteTasks();
         this.toggleTasksBtns();
     }
 
@@ -289,7 +290,6 @@ export default class ProjectPage {
         btn.addEventListener('click', () => {
             let { index } = btn.parentElement.parentElement.dataset;
             let task = btn.parentElement.parentElement;
-            const prevContent = task.innerHTML;
             const editDiv = document.createElement('div');
             editDiv.classList.add('edit-task');
             editDiv.innerHTML = this.getTaskModal('edit');
@@ -332,9 +332,25 @@ export default class ProjectPage {
         });
     }
 
+    deleteTask(btn) {
+        btn.addEventListener('click', () => {
+            let { index } = btn.parentElement.parentElement.dataset;
+            this.project.deleteTask(index);
+            this.updatePage();
+        });
+    }
+
+    deleteTasks() {
+        const deleteBtns = Utilities.getElements('.delete-task-btn');
+        deleteBtns.forEach((btn) => {
+            this.deleteTask(btn);
+        });
+    }
+
     attachEventListeners() {
         this.handleChecks();
         this.editTasks();
+        this.deleteTasks();
         this.toggleTasksBtns();
         this.handleSortMenu();
         this.handleDeleteCompleted();
