@@ -1,3 +1,4 @@
+import { th } from 'date-fns/locale';
 import Utilities from './Utils';
 
 export default class ProjectPage {
@@ -56,6 +57,8 @@ export default class ProjectPage {
     createListItemIcon(task) {
         const priorityColors = ['', '#d1453b', '#eb8909', '#246fe0', '#474545'];
         const icon = document.createElement('div');
+        icon.dataset.color = priorityColors[task.priority];
+        icon.dataset.priority = task.priority;
         icon.classList.add('check');
         icon.innerHTML = `<i class="fa-regular ${task.isCompleted ? 'fa-circle-check' : 'fa-circle'}  fa-lg" style="color: ${priorityColors[task.priority]};"></i>`;
         return icon;
@@ -76,7 +79,7 @@ export default class ProjectPage {
                         <button class="delete-task-btn"><i class="fa-regular fa-trash-can" style="color: #888a85;"></i></button>
                         </div>
                         <div class="task-description">${task.description}</div>
-                        <div class="task-due-date">${task.getDueDate()}</div>`;
+                        <div class="task-due-date" data-date="${task.getReverseDueDate()}">${task.getDueDate()}</div>`;
         return li;
     }
 
@@ -101,76 +104,73 @@ export default class ProjectPage {
         return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     }
 
+    getTaskModal(purpose) {
+        return `<div>
+                <input type="text" name="taskName" id="taskName" placeholder="Task name" maxlength="35">
+                <input type="text" name="description" id="description" placeholder="Description (optional)" maxlength="50">
+                <div>
+                    <input type="date" id="dueDate" name="due-date" value="${this.getCurrentDate()}">
+                    <button class="set-priority" data-priority-number="4"><i class="fa-regular fa-flag" style="color: #474545;"></i> Priority 4</button>
+                </div>
+                <div>
+                    <button class="cancel-${purpose}-task cancel-btn">Cancel</button>
+                    <button class="${purpose}-task add-btn">${purpose === 'edit' ? 'Update' : 'Add'} task</button>
+                </div>
+                <div class="priority-modal hide">
+                <div>
+                    <span class="priority-option" data-priority-number="1"><i class="fa-regular fa-flag" style="color: #d1453b;"></i> Priority 1</span>
+                    <span class="priority-option" data-priority-number="2"><i class="fa-regular fa-flag" style="color: #eb8909;"></i> Priority 2</span>
+                    <span class="priority-option" data-priority-number="3"><i class="fa-regular fa-flag" style="color: #246fe0;"></i> Priority 3</span>
+                    <span class="priority-option" data-priority-number="4"><i class="fa-regular fa-flag" style="color: #474545;"></i> Priority 4</span>
+                </div>
+                </div>
+                </div>`;
+    }
+
     createAddTaskModal() {
         const addTaskDiv = Utilities.getElement('.add-task');
-        addTaskDiv.innerHTML = `<div>
-                                    <input type="text" name="taskName" id="taskName" placeholder="Task name" maxlength="35">
-                                    <input type="text" name="description" id="description" placeholder="Description (optional)" maxlength="50">
-                                    <div>
-                                        <input type="date" id="dueDate" name="due-date" value="${this.getCurrentDate()}">
-                                        <button class="set-priority" data-priority-number="4"><i class="fa-regular fa-flag" style="color: #474545;"></i> Priority 4</button>
-                                    </div>
-                                    <div>
-                                        <button class="cancel-add-task cancel-btn">Cancel</button>
-                                        <button class="submit-task add-btn">Add task</button>
-                                    </div>
-                                    <div class="priority-modal hide">
-                                        <div>
-                                            <span class="priority-option" data-priority-number="1"><i class="fa-regular fa-flag" style="color: #d1453b;"></i> Priority 1</span>
-                                            <span class="priority-option" data-priority-number="2"><i class="fa-regular fa-flag" style="color: #eb8909;"></i> Priority 2</span>
-                                            <span class="priority-option" data-priority-number="3"><i class="fa-regular fa-flag" style="color: #246fe0;"></i> Priority 3</span>
-                                            <span class="priority-option" data-priority-number="4"><i class="fa-regular fa-flag" style="color: #474545;"></i> Priority 4</span>
-                                        </div>
-                                    </div>
-                                </div>`;
+        addTaskDiv.innerHTML = this.getTaskModal('submit');
     }
 
     updatePage() {
         this.createTasksList();
         this.handleChecks();
         this.updateTaskAmount();
+        this.editTasks();
+        this.toggleTasksBtns();
+    }
+
+    handleCheck(check) {
+        const taskIndex = check.parentElement.dataset.index;
+
+        check.addEventListener('mouseover', () => {
+            check.firstChild.classList.remove('fa-circle');
+            check.firstChild.classList.add('fa-circle-check');
+        });
+
+        check.addEventListener('mouseout', () => {
+            if (!this.project.findTask(taskIndex).isCompleted) {
+                check.firstChild.classList.remove('fa-circle-check');
+                check.firstChild.classList.add('fa-circle');
+            }
+        });
+
+        check.addEventListener('click', () => {
+            this.project.findTask(taskIndex).completeTask();
+            check.parentElement.classList.add('completed');
+            check.parentElement.querySelector('.task-title').classList.add('completed');
+            check.parentElement.querySelector('.task-description').classList.add('completed');
+            check.parentElement.querySelector('.task-due-date').classList.add('completed');
+            check.firstChild.classList.remove('fa-circle');
+            check.firstChild.classList.add('fa-circle-check');
+        });
     }
 
     handleChecks() {
         const checks = Utilities.getElements('.check');
 
         checks.forEach((check) => {
-            const taskIndex = check.parentElement.dataset.index;
-
-            check.addEventListener('mouseover', () => {
-                check.firstChild.classList.remove('fa-circle');
-                check.firstChild.classList.add('fa-circle-check');
-            });
-
-            check.addEventListener('mouseout', () => {
-                if (!this.project.findTask(taskIndex).isCompleted) {
-                    check.firstChild.classList.remove('fa-circle-check');
-                    check.firstChild.classList.add('fa-circle');
-                }
-            });
-
-            check.addEventListener('click', () => {
-                this.project.findTask(taskIndex).completeTask();
-                check.parentElement.classList.add('completed');
-                check.parentElement.querySelector('.task-title').classList.add('completed');
-                check.parentElement.querySelector('.task-description').classList.add('completed');
-                check.parentElement.querySelector('.task-due-date').classList.add('completed');
-                check.firstChild.classList.remove('fa-circle');
-                check.firstChild.classList.add('fa-circle-check');
-            });
-        });
-    }
-
-    toggleTaskBtns() {
-        const tasks = Utilities.getElements('.task');
-        tasks.forEach((task) => {
-            const btns = task.querySelector('.task-btns');
-            task.addEventListener('mouseover', () => {
-                btns.classList.remove('hide');
-            });
-            task.addEventListener('mouseout', () => {
-                btns.classList.add('hide');
-            });
+            this.handleCheck(check);
         });
     }
 
@@ -228,7 +228,7 @@ export default class ProjectPage {
         const descriptionInput = Utilities.getElement('#description');
         const dueDateInput = Utilities.getElement('#dueDate');
         const priorityInput = Utilities.getElement('.set-priority');
-        const cancelBtn = Utilities.getElement('.cancel-add-task');
+        const cancelBtn = Utilities.getElement('.cancel-submit-task');
         const submitBtn = Utilities.getElement('.submit-task');
 
         cancelBtn.addEventListener('click', () => {
@@ -252,7 +252,7 @@ export default class ProjectPage {
     handlePriorityBtn() {
         const priorityBtn = Utilities.getElement('.set-priority');
         priorityBtn.addEventListener('click', () => {
-            Utilities.showElement('.priority-modal');
+            Utilities.toggleElement('.priority-modal');
         });
     }
 
@@ -268,9 +268,74 @@ export default class ProjectPage {
         });
     }
 
+    toggleTaskBtns(task) {
+        const btns = task.querySelector('.task-btns');
+        task.addEventListener('mouseover', () => {
+            btns.classList.remove('hide');
+        });
+        task.addEventListener('mouseout', () => {
+            btns.classList.add('hide');
+        });
+    }
+
+    toggleTasksBtns() {
+        const tasks = Utilities.getElements('.task');
+        tasks.forEach((task) => {
+            this.toggleTaskBtns(task);
+        });
+    }
+
+    editTask(btn) {
+        btn.addEventListener('click', () => {
+            let { index } = btn.parentElement.parentElement.dataset;
+            let task = btn.parentElement.parentElement;
+            const prevContent = task.innerHTML;
+            const editDiv = document.createElement('div');
+            editDiv.classList.add('edit-task');
+            editDiv.innerHTML = this.getTaskModal('edit');
+            editDiv.querySelector('#taskName').value = task.querySelector('.task-title').innerHTML;
+            editDiv.querySelector('#description').value = task.querySelector('.task-description').innerHTML;
+            editDiv.querySelector('#dueDate').value = task.querySelector('.task-due-date').dataset.date;
+            let check = task.querySelector('.check');
+            editDiv.querySelector('.set-priority').innerHTML = `<i class="fa-regular fa-flag" style="color: ${check.dataset.color};"></i> Priority ${check.dataset.priority}`;
+            editDiv.querySelector('.set-priority').dataset.priority = check.dataset.priority;
+            editDiv.querySelector('.set-priority').addEventListener('click', () => {
+                editDiv.querySelector('.priority-modal').classList.toggle('hide');
+            });
+            editDiv.querySelectorAll('.priority-option').forEach((span) => {
+                span.addEventListener('click', () => {
+                    editDiv.querySelector('.set-priority').innerHTML = span.innerHTML;
+                    editDiv.querySelector('.set-priority').dataset.priority = span.dataset.priorityNumber;
+                    editDiv.querySelector('.priority-modal').classList.add('hide');
+                });
+            });
+            editDiv.querySelector('.cancel-btn').addEventListener('click', () => {
+                this.updatePage();
+            });
+            editDiv.querySelector('.edit-task').addEventListener('click', () => {
+                this.project.changeTaskTitle(index, editDiv.querySelector('#taskName').value);
+                this.project.changeTaskDescription(index, editDiv.querySelector('#description').value);
+                this.project.changeTaskDueDate(index, editDiv.querySelector('#dueDate').value);
+                this.project.changeTaskPriority(index, editDiv.querySelector('.set-priority').dataset.priority);
+                this.updatePage();
+            });
+            task.style.display = 'block';
+            task.innerHTML = '';
+            task.appendChild(editDiv);
+        });
+    }
+
+    editTasks() {
+        const editBtns = Utilities.getElements('.edit-task-btn');
+        editBtns.forEach((btn) => {
+            this.editTask(btn);
+        });
+    }
+
     attachEventListeners() {
         this.handleChecks();
-        this.toggleTaskBtns();
+        this.editTasks();
+        this.toggleTasksBtns();
         this.handleSortMenu();
         this.handleDeleteCompleted();
         this.handleDeleteAll();

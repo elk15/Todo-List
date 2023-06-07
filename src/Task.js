@@ -13,6 +13,10 @@ export default class Task {
         return format(this.dueDate, 'dd/MMM/yyyy');
     }
 
+    getReverseDueDate() {
+        return format(this.dueDate, 'yyyy-MM-dd');
+    }
+
     completeTask() {
         this.isCompleted = true;
     }
