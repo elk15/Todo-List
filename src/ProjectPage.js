@@ -158,7 +158,6 @@ export default class ProjectPage {
 
         check.addEventListener('click', () => {
             this.project.findTask(taskIndex).completeTask();
-            check.parentElement.classList.add('completed');
             check.parentElement.querySelector('.task-title').classList.add('completed');
             check.parentElement.querySelector('.task-description').classList.add('completed');
             check.parentElement.querySelector('.task-due-date').classList.add('completed');
