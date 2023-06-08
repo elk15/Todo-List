@@ -6,9 +6,8 @@ const UI = (() => {
     const pages = [ProjectPage.for(TodoList.inbox, 0), ProjectPage.for(TodoList.inbox, 1),
         ProjectPage.for(TodoList.inbox, 2)];
 
-    const navItems = Utilities.getElements('.nav-item');
-
     const removeSelectedFromAll = () => {
+        const navItems = Utilities.getElements('.nav-item');
         navItems.forEach((navItem) => {
             navItem.classList.remove('selected');
         });
@@ -99,6 +98,68 @@ const UI = (() => {
         });
     };
 
+    const handleShowProjectModalBtn = () => {
+        const addProjectBtn = Utilities.getElement('.open-project-modal');
+        addProjectBtn.addEventListener('click', () => {
+            Utilities.showElement('.add-project-modal');
+            Utilities.showElement('.overlay');
+        });
+    };
+
+    const handleColorsModal = () => {
+        const colorBtn = Utilities.getElement('#project-color');
+        colorBtn.addEventListener('click', () => {
+            Utilities.toggleElement('.color-modal');
+        });
+        const colorSpans = Utilities.getElements('.color-option');
+        colorSpans.forEach((span) => {
+            span.addEventListener('click', () => {
+                colorBtn.innerHTML = span.innerHTML;
+                colorBtn.dataset.color = span.dataset.color;
+                Utilities.hideElement('.color-modal');
+            });
+        });
+    };
+
+    const addUserProject = (project) => {
+        pages.push(ProjectPage.for(project, pages.length));
+        const projectsUl = Utilities.getElement('.projects');
+        const newLi = document.createElement('li');
+        newLi.classList.add('nav-item');
+        newLi.id = pages.length - 1;
+        newLi.innerHTML = `<div class="group"><i class="fa-solid fa-circle" style="color: ${project.getColor()};"></i> ${project.getTitle()}</div> <span id="amount-${newLi.id}">0</span>`;
+        projectsUl.appendChild(newLi);
+        controlPageNavigation();
+    };
+
+    const handleAddProjectModal = () => {
+        handleColorsModal();
+        const cancelBtn = Utilities.getElement('.cancel-add-project');
+        const addBtn = Utilities.getElement('.add-project');
+        const nameInput = Utilities.getElement('#project-title');
+        const colorInput = Utilities.getElement('#project-color');
+
+        addBtn.addEventListener('click', () => {
+            if (nameInput.value !== '') {
+                TodoList.addProject(nameInput.value, colorInput.dataset.color);
+                const project = TodoList.getLastProject();
+                addUserProject(project);
+                console.log(TodoList.getProjects());
+                Utilities.hideElement('.add-project-modal');
+                Utilities.hideElement('.overlay');
+                nameInput.value = '';
+                colorInput.innerHTML = '<i class="fa-solid fa-circle" style="color: #C0C0C0;"></i> Silver';
+            }
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            Utilities.hideElement('.add-project-modal');
+            Utilities.hideElement('.overlay');
+            nameInput.value = '';
+            colorInput.innerHTML = '<i class="fa-solid fa-circle" style="color: #C0C0C0;"></i> Silver';
+        });
+    };
+
     const attachEventListeners = () => {
         handleDeleteAll();
         handleDeleteCompleted();
@@ -109,6 +170,7 @@ const UI = (() => {
     };
 
     const controlPageNavigation = () => {
+        const navItems = Utilities.getElements('.nav-item');
         navItems.forEach((navItem) => {
             navItem.addEventListener('click', () => {
                 closeAddTaskModal();
@@ -124,7 +186,7 @@ const UI = (() => {
         const btn = Utilities.getElement(`.${name}`);
 
         btn.addEventListener('click', () => {
-            Utilities.showElement(`.${name}-modal`);
+            Utilities.toggleElement(`.${name}-modal`);
         });
 
         document.addEventListener('click', (e) => {
@@ -142,6 +204,8 @@ const UI = (() => {
         controlPageNavigation();
         updateTaskAmount();
         attachEventListeners();
+        handleShowProjectModalBtn();
+        handleAddProjectModal();
     };
 
     return {

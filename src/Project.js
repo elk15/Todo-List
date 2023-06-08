@@ -4,13 +4,22 @@ import {
 import Task from './Task';
 
 export default class Project {
-    constructor(title) {
+    constructor(title, color = null) {
         this.title = title;
+        this.color = color;
         this.tasks = [];
     }
 
     changeProjectTitle(newTitle) {
         this.title = newTitle;
+    }
+
+    getTitle() {
+        return this.title;
+    }
+
+    getColor() {
+        return this.color;
     }
 
     addTask(title, description, dueDate, priority) {

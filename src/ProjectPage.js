@@ -1,4 +1,3 @@
-import { th } from 'date-fns/locale';
 import Utilities from './Utils';
 
 export default class ProjectPage {

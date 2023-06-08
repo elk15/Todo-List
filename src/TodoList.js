@@ -10,23 +10,25 @@ const TodoList = (() => {
     inbox.addTask('Study', 'Yay', '2023-5-26', 2);
     inbox.addTask('Go to amusement park', 'Yay', '2023-5-30', 3);
 
-    const projects = [inbox, inbox.getTodaysTasks(), inbox.getThisWeeksTasks()];
+    const userProjects = [];
 
-    const addProject = (title) => {
-        projects.push(new Project(title));
+    const addProject = (title, color) => {
+        userProjects.push(new Project(title, color));
     };
 
     const deleteProject = (index) => {
-        projects.splice(index, 1);
+        userProjects.splice(index, 1);
     };
 
     const renameProject = (index, newTitle) => {
-        projects[index].changeProjectTitle(newTitle);
+        userProjects[index].changeProjectTitle(newTitle);
     };
 
-    const findProject = (index) => projects[index];
+    const findProject = (index) => userProjects[index];
 
-    const getProjects = () => projects;
+    const getProjects = () => userProjects;
+
+    const getLastProject = () => userProjects[userProjects.length - 1];
 
     return {
         inbox,
@@ -35,6 +37,7 @@ const TodoList = (() => {
         renameProject,
         findProject,
         getProjects,
+        getLastProject,
     };
 })();
 
