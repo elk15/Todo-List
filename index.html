@@ -15,7 +15,7 @@
 <body>
     <div class="container-grid">
         
-        <header><div class="group"><button><i class="fa-solid fa-bars" style="color: #ffffff;"></i></button><h1>Todo List</h1></div><button id="add-task">+</button></header>
+        <header><div class="group"><button><i class="fa-solid fa-bars" style="color: #ffffff;"></i></button><h1>Todo List</h1></div></header>
         <nav>
             <ul>
                 <li id="0" class="nav-item"><div class="group"><i class="fa-solid fa-inbox fa-lg" style="color: #67a9e2;"></i> Inbox</div> <span id="amount-0">0</span></li>
@@ -23,7 +23,7 @@
                 <li id="2" class="nav-item"><div class="group"><i class="fa-solid fa-calendar-week fa-lg" style="color: #9667db;"></i>This Week</div> <span id="amount-2">0</span></li>
                 
             </ul>
-            <div><h2>Projects</h2> <button>+</button></div>
+            <div><h2>Projects</h2> <button class="open-project-modal">+</button></div>
             <ul class="projects">
             </ul>
         </nav>
@@ -43,7 +43,7 @@
                 <div class="delete-modal mini-modal hide"></div>
             </div>
         </main>
-        <div class="add-project-modal">
+        <div class="add-project-modal hide">
             <div>
                 <h2>Add Project</h2>
                 <div>
@@ -52,34 +52,34 @@
                 </div>
                 <div>
                     <label for="project-color">Color</label>
-                    <button id="project-color"><i class="fa-solid fa-circle" style="color: #C0C0C0;"></i> Silver</button>
+                    <button id="project-color" data-color="#C0C0C0"><i class="fa-solid fa-circle" style="color: #C0C0C0;"></i> Silver</button>
                 </div>
-                <div class="color-modal">
+                <div class="color-modal hide">
                     <div>
-                        <span><i class="fa-solid fa-circle" style="color: #C0C0C0;"></i> Silver</span>
-                        <span><i class="fa-solid fa-circle" style="color: #808080;"></i> Gray</span>
-                        <span><i class="fa-solid fa-circle" style="color: #000000;"></i> Black</span>
-                        <span><i class="fa-solid fa-circle" style="color: #FF0000;"></i> Red</span>
-                        <span><i class="fa-solid fa-circle" style="color: #800000;"></i> Maroon</span>
-                        <span><i class="fa-solid fa-circle" style="color: #FFFF00;"></i> Yellow</span>
-                        <span><i class="fa-solid fa-circle" style="color: #808000;"></i> Olive</span>
-                        <span><i class="fa-solid fa-circle" style="color: #00FF00;"></i> Lime</span>
-                        <span><i class="fa-solid fa-circle" style="color: #008000;"></i> Green</span>
-                        <span><i class="fa-solid fa-circle" style="color: #00FFFF;"></i> Aqua</span>
-                        <span><i class="fa-solid fa-circle" style="color: #008080;"></i> Teal</span>
-                        <span><i class="fa-solid fa-circle" style="color: #0000FF;"></i> Blue</span>
-                        <span><i class="fa-solid fa-circle" style="color: #000080;"></i> Navy</span>
-                        <span><i class="fa-solid fa-circle" style="color: #FF00FF;"></i> Fuchsia</span>
-                        <span><i class="fa-solid fa-circle" style="color: #800080;"></i> Purple</span>
+                        <span class="color-option" data-color="#C0C0C0"><i class="fa-solid fa-circle" style="color: #C0C0C0;"></i> Silver</span>
+                        <span class="color-option" data-color="#808080"><i class="fa-solid fa-circle" style="color: #808080;"></i> Gray</span>
+                        <span class="color-option" data-color="#000000"><i class="fa-solid fa-circle" style="color: #000000;"></i> Black</span>
+                        <span class="color-option" data-color="#FF0000"><i class="fa-solid fa-circle" style="color: #FF0000;"></i> Red</span>
+                        <span class="color-option" data-color="#800000"><i class="fa-solid fa-circle" style="color: #800000;"></i> Maroon</span>
+                        <span class="color-option" data-color="#FFFF00"><i class="fa-solid fa-circle" style="color: #FFFF00;"></i> Yellow</span>
+                        <span class="color-option" data-color="#808000"><i class="fa-solid fa-circle" style="color: #808000;"></i> Olive</span>
+                        <span class="color-option" data-color="#00FF00"><i class="fa-solid fa-circle" style="color: #00FF00;"></i> Lime</span>
+                        <span class="color-option" data-color="#008000"><i class="fa-solid fa-circle" style="color: #008000;"></i> Green</span>
+                        <span class="color-option" data-color="#00FFFF"><i class="fa-solid fa-circle" style="color: #00FFFF;"></i> Aqua</span>
+                        <span class="color-option" data-color="#008080"><i class="fa-solid fa-circle" style="color: #008080;"></i> Teal</span>
+                        <span class="color-option" data-color="#0000FF"><i class="fa-solid fa-circle" style="color: #0000FF;"></i> Blue</span>
+                        <span class="color-option" data-color="#000080"><i class="fa-solid fa-circle" style="color: #000080;"></i> Navy</span>
+                        <span class="color-option" data-color="#FF00FF"><i class="fa-solid fa-circle" style="color: #FF00FF;"></i> Fuchsia</span>
+                        <span class="color-option" data-color="#800080"><i class="fa-solid fa-circle" style="color: #800080;"></i> Purple</span>
                     </div>
                 </div>
                 <div class="btns">
-                    <button class="cancel-btn">Cancel</button>
-                    <button class="add-btn">Add</button>
+                    <button class="cancel-btn cancel-add-project">Cancel</button>
+                    <button class="add-btn add-project">Add</button>
                 </div>
             </div>
         </div>
-        <div class="overlay"></div>
+        <div class="overlay hide"></div>
     </div>
     <script src="main.js"></script>
 </body>
