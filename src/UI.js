@@ -196,6 +196,20 @@ const UI = (() => {
         });
     };
 
+    const toggleNavBar = () => {
+        const toggleBtn = Utilities.getElement('.toggle-navbar');
+        const sidebar = Utilities.getElement('.sidebar');
+        toggleBtn.addEventListener('click', () => {
+            if (sidebar.style.width == '0px') {
+                sidebar.style.width = '250px';
+                sidebar.style.padding = '10px';
+            } else {
+                sidebar.style.width = '0px';
+                sidebar.style.padding = '0px';
+            }
+        });
+    };
+
     const initializeUI = () => {
         pages[0].initializePage();
         document.getElementById('0').classList.add('selected');
@@ -206,6 +220,7 @@ const UI = (() => {
         attachEventListeners();
         handleShowProjectModalBtn();
         handleAddProjectModal();
+        toggleNavBar();
     };
 
     return {
