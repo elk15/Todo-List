@@ -1,6 +1,7 @@
 import Utilities from './Utils';
 import TodoList from './TodoList';
 import ProjectPage from './ProjectPage';
+import Storage from './Storage';
 
 const UI = (() => {
     const pages = [ProjectPage.for(TodoList.inbox, 0), ProjectPage.for(TodoList.inbox, 1),
@@ -32,6 +33,7 @@ const UI = (() => {
             updateTaskAmount();
             handleEditTaskBtns();
             handleDeleteTask();
+            Storage.saveToStorage();
         });
     };
 
@@ -42,6 +44,7 @@ const UI = (() => {
             updateTaskAmount();
             handleEditTaskBtns();
             handleDeleteTask();
+            Storage.saveToStorage();
         });
     };
 
@@ -52,6 +55,7 @@ const UI = (() => {
                 updateTaskAmount();
                 handleEditTaskBtns();
                 handleDeleteTask();
+                Storage.saveToStorage();
             });
         });
     };
@@ -62,6 +66,7 @@ const UI = (() => {
             updateTaskAmount();
             handleEditTaskBtns();
             handleDeleteTask();
+            Storage.saveToStorage();
         });
     };
 
@@ -74,6 +79,7 @@ const UI = (() => {
                     updateTaskAmount();
                     handleEditTaskBtns();
                     handleDeleteTask();
+                    Storage.saveToStorage();
                 });
 
                 const cancelBtn = Utilities.getElement('.cancel-edit-task');
@@ -90,11 +96,13 @@ const UI = (() => {
         sortDueDateBtn.addEventListener('click', () => {
             handleEditTaskBtns();
             handleDeleteTask();
+            Storage.saveToStorage();
         });
         const sortPriorityBtn = Utilities.getElement('.sort-priority');
         sortPriorityBtn.addEventListener('click', () => {
             handleEditTaskBtns();
             handleDeleteTask();
+            Storage.saveToStorage();
         });
     };
 

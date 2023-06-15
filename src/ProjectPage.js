@@ -1,4 +1,5 @@
 import Utilities from './Utils';
+import Storage from './Storage';
 
 export default class ProjectPage {
     static for(project, projectIndex) {
@@ -157,6 +158,7 @@ export default class ProjectPage {
 
         check.addEventListener('click', () => {
             this.project.findTask(taskIndex).completeTask();
+            Storage.saveToStorage();
             check.parentElement.querySelector('.task-title').classList.add('completed');
             check.parentElement.querySelector('.task-description').classList.add('completed');
             check.parentElement.querySelector('.task-due-date').classList.add('completed');

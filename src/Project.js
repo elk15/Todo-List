@@ -22,12 +22,12 @@ export default class Project {
         return this.color;
     }
 
-    addTask(title, description, dueDate, priority) {
+    addTask(title, description, dueDate, priority, isCompleted = false) {
         let parsedDate = dueDate;
         if (typeof dueDate === 'string') {
             parsedDate = parse(dueDate, 'yyyy-MM-dd', new Date());
         }
-        this.tasks.push(new Task(title, description, parsedDate, priority));
+        this.tasks.push(new Task(title, description, parsedDate, priority, isCompleted));
     }
 
     findTask(index) {

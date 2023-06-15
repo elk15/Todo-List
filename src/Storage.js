@@ -8,7 +8,7 @@ export default class Storage {
             const tempArray = [];
             tempArray.push(task.title);
             tempArray.push(task.description);
-            tempArray.push(task.dueDate);
+            tempArray.push(task.getDueDate());
             tempArray.push(task.priority);
             tempArray.push(task.isCompleted);
             data.Inbox.push(tempArray);
@@ -20,13 +20,13 @@ export default class Storage {
                 const tempArray = [];
                 tempArray.push(task.title);
                 tempArray.push(task.description);
-                tempArray.push(task.dueDate);
+                tempArray.push(task.getDueDate());
                 tempArray.push(task.priority);
                 tempArray.push(task.isCompleted);
                 data[project.getTitle()].tasks.push(tempArray);
             });
         });
-
+        console.log(data);
         return data;
     }
 
@@ -41,18 +41,18 @@ export default class Storage {
         } catch (e) {
             return (
                 e instanceof DOMException
-            // everything except Firefox
-            && (e.code === 22
-              // Firefox
-              || e.code === 1014
-              // test name field too, because code might not be present
-              // everything except Firefox
-              || e.name === 'QuotaExceededError'
-              // Firefox
-              || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')
-            // acknowledge QuotaExceededError only if there's something already stored
-            && storage
-            && storage.length !== 0
+                // everything except Firefox
+                && (e.code === 22
+                    // Firefox
+                    || e.code === 1014
+                    // test name field too, because code might not be present
+                    // everything except Firefox
+                    || e.name === 'QuotaExceededError'
+                    // Firefox
+                    || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')
+                    // acknowledge QuotaExceededError only if there's something already stored
+                    && storage
+                    && storage.length !== 0
             );
         }
     }
@@ -65,7 +65,7 @@ export default class Storage {
         }
     }
 
-    static restoreStorageData() {
+    static retrieveData() {
         if (this.storageAvailable('localStorage')) {
             return JSON.parse(localStorage.getItem('TodoList-session'));
         }
