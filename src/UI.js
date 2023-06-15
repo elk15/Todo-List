@@ -152,7 +152,7 @@ const UI = (() => {
                 TodoList.addProject(nameInput.value, colorInput.dataset.color);
                 const project = TodoList.getLastProject();
                 addUserProject(project);
-                console.log(TodoList.getProjects());
+                Storage.saveToStorage();
                 Utilities.hideElement('.add-project-modal');
                 Utilities.hideElement('.overlay');
                 nameInput.value = '';
@@ -218,7 +218,12 @@ const UI = (() => {
         });
     };
 
+    const appendUserProjects = () => {
+        TodoList.getProjects().forEach((project) => addUserProject(project));
+    };
+
     const initializeUI = () => {
+        appendUserProjects();
         pages[0].initializePage();
         document.getElementById('0').classList.add('selected');
         toggleMiniMenu('sort');

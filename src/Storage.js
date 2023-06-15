@@ -26,7 +26,6 @@ export default class Storage {
                 data[project.getTitle()].tasks.push(tempArray);
             });
         });
-        console.log(data);
         return data;
     }
 
