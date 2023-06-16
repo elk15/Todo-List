@@ -159,6 +159,15 @@ nav > div button:hover{
     overflow-y: scroll;
 }
 
+.projects::-webkit-scrollbar {
+    display: none;
+}
+
+.projects {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
 /* Project Page */
 
 .main-content {
