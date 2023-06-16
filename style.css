@@ -464,6 +464,18 @@ nav > div button:hover{
     z-index: 2;
 }
 
+.delete-project{
+    font-size: 20px;
+}
+
+.delete-project i:hover {
+    color: #2a2a2a!important;
+}
+
+.projects span {
+    margin-top: 2px;
+}
+
 /* Mobile & Tablets */
 @media only screen and (max-width: 900px) {
     nav {
