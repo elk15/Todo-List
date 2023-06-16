@@ -14,6 +14,10 @@ const UI = (() => {
         });
     };
 
+    const deleteProjectPage = (index) => {
+        pages.splice(index, 1);
+    };
+
     const updateTaskAmount = () => {
         for (let i = 0; i < pages.length; i += 1) {
             pages[i].updateTaskAmount();
@@ -129,17 +133,6 @@ const UI = (() => {
         });
     };
 
-    const addUserProject = (project) => {
-        pages.push(ProjectPage.for(project, pages.length));
-        const projectsUl = Utilities.getElement('.projects');
-        const newLi = document.createElement('li');
-        newLi.classList.add('nav-item');
-        newLi.id = pages.length - 1;
-        newLi.innerHTML = `<div class="group"><i class="fa-solid fa-circle" style="color: ${project.getColor()};"></i> ${project.getTitle()}</div> <span id="amount-${newLi.id}">0</span>`;
-        projectsUl.appendChild(newLi);
-        controlPageNavigation();
-    };
-
     const handleAddProjectModal = () => {
         handleColorsModal();
         const cancelBtn = Utilities.getElement('.cancel-add-project');
@@ -177,16 +170,22 @@ const UI = (() => {
         handleSortBtns();
     };
 
+    const loadPage = (navItem) => {
+        closeAddTaskModal();
+        if (navItem.id < pages.length) {
+            pages[navItem.id].initializePage();
+        }
+        removeSelectedFromAll();
+        navItem.classList.add('selected');
+        attachEventListeners();
+    };
+
     const controlPageNavigation = () => {
         const navItems = Utilities.getElements('.nav-item');
         navItems.forEach((navItem) => {
-            navItem.addEventListener('click', () => {
-                closeAddTaskModal();
-                pages[navItem.id].initializePage();
-                removeSelectedFromAll();
-                navItem.classList.add('selected');
-                attachEventListeners();
-            });
+            if (navItem.id < 3) {
+                navItem.addEventListener('click', () => loadPage(navItem));
+            }
         });
     };
 
@@ -218,7 +217,28 @@ const UI = (() => {
         });
     };
 
+    const addUserProject = (project) => {
+        pages.push(ProjectPage.for(project, pages.length));
+        const projectsUl = Utilities.getElement('.projects');
+        const newLi = document.createElement('li');
+        newLi.classList.add('nav-item');
+        newLi.id = pages.length - 1;
+        newLi.innerHTML = `<div class="group"><i class="fa-solid fa-circle" style="color: ${project.getColor()};"></i> ${project.getTitle()} <button class="delete-project"><i class="fa-solid fa-eraser" style="color: #888a85;"></i></button></div> <span id="amount-${newLi.id}">0</span>`;
+        newLi.addEventListener('click', () => loadPage(newLi));
+        const deleteBtn = newLi.querySelector('.delete-project');
+        deleteBtn.addEventListener('click', () => {
+            TodoList.deleteProject(newLi.id - 3);
+            deleteProjectPage(newLi.id);
+            Storage.saveToStorage();
+            appendUserProjects();
+        });
+        projectsUl.appendChild(newLi);
+    };
+
     const appendUserProjects = () => {
+        const projects = Utilities.getElement('.projects');
+        projects.innerHTML = '';
+        pages.splice(3);
         TodoList.getProjects().forEach((project) => addUserProject(project));
     };
 
