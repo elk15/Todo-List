@@ -1,5 +1,8 @@
 import UI from './UI';
+import TodoList from './TodoList';
+import Storage from './Storage';
 
-const main = document.querySelector('.main-content');
+const data = Storage.retrieveData();
+TodoList.restoreData(data);
 
-main.appendChild(UI.inboxPage);
+UI.initializeUI();

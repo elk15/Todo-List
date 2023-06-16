@@ -150,6 +150,7 @@ const UI = (() => {
                 Utilities.hideElement('.overlay');
                 nameInput.value = '';
                 colorInput.innerHTML = '<i class="fa-solid fa-circle" style="color: #C0C0C0;"></i> Silver';
+                colorInput.dataset.color = '#C0C0C0';
             }
         });
 
@@ -230,6 +231,7 @@ const UI = (() => {
             TodoList.deleteProject(newLi.id - 3);
             deleteProjectPage(newLi.id);
             Storage.saveToStorage();
+            pages[0].initializePage();
             appendUserProjects();
         });
         projectsUl.appendChild(newLi);
