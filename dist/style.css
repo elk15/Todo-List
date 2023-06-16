@@ -476,6 +476,15 @@ nav > div button:hover{
     margin-top: 2px;
 }
 
+.projects::-webkit-scrollbar{
+    display: none;
+}
+
+.projects{
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
 /* Mobile & Tablets */
 @media only screen and (max-width: 900px) {
     nav {
