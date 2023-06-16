@@ -155,7 +155,7 @@ nav > div button:hover{
 }
 
 .projects {
-    flex:1 1 400px;
+    flex:0 1 400px;
     overflow-y: scroll;
 }
 
@@ -474,15 +474,6 @@ nav > div button:hover{
 
 .projects span {
     margin-top: 2px;
-}
-
-.projects::-webkit-scrollbar{
-    display: none;
-}
-
-.projects{
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
 }
 
 /* Mobile & Tablets */
