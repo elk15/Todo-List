@@ -500,6 +500,15 @@ nav > div button:hover{
     .task-btns {
         display: block;
     }
+
+    .project .sort-modal {
+        left: 300px;
+    }
+
+    .project .delete-modal {
+        left: 320px;
+
+    }
   }
 
   @media only screen and (max-width: 500px) {
@@ -514,5 +523,14 @@ nav > div button:hover{
 
     .task-btns button{
         font-size: 15px;
+    }
+
+    .project .sort-modal {
+        left: 200px;
+    }
+
+    .project .delete-modal {
+        left: 220px;
+
     }
   }
