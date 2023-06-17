@@ -346,13 +346,14 @@ nav > div button:hover{
 .project .add-task .priority-modal, .project .edit-task .priority-modal{
     overflow-y: scroll;
     width: 100px;
-    height: 70px;
+    height: 135px;
     border: 1px solid var(--hover-color);
     padding: 5px;
     position: absolute;
     top: 130px;
     left: 158px;
     font-weight: 300;
+    background-color: #fff;
 }
 
 .project .add-task .priority-modal div, .project .edit-task .priority-modal div {
